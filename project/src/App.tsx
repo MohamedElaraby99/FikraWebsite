@@ -37,10 +37,11 @@ import { ThemeToggle } from "./components/ThemeToggle";
 import { ThemeProvider } from "./components/ThemeContext";
 import AnimatedBackground from "./AnimatedBackground";
 import features from "./Images/features.webp";
+import About from "./Images/About.webp";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isArabic, setIsArabic] = useState(true);
+  const [isArabic, setIsArabic] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
@@ -191,29 +192,6 @@ function App() {
       image:
         "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       tags: ["React", "Firebase", "Analytics"],
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: { ar: "أحمد حسن", en: "Ahmed Hassan" },
-      role: { ar: "المدير التقني", en: "Technical Director" },
-      company: { ar: "شركة التقنية", en: "Tech Company" },
-      content: {
-        ar: "قدمت فكرة نتائج استثنائية لمشروع التحول الرقمي الخاص بنا",
-        en: "Manasety provided exceptional results for our digital transformation project",
-      },
-      image: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-    },
-    {
-      name: { ar: "سارة محمد", en: "Sara Mohamed" },
-      role: { ar: "مديرة", en: "Director" },
-      company: { ar: "التعليم التقني", en: "Tech Education" },
-      content: {
-        ar: "ساهمت حلولهم في تحويل تجربة التعلم عن بعد لدينا بشكل كامل",
-        en: "Their solutions completely transformed our remote learning experience",
-      },
-      image: "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
     },
   ];
 
@@ -368,11 +346,8 @@ function App() {
                     name: isArabic ? "إنجازاتنا" : "Achievements",
                     id: "achievements",
                   },
+                  { name: isArabic ? "من نحن" : "About", id: "about" },
                   { name: isArabic ? "مشاريعنا" : "Projects", id: "projects" },
-                  {
-                    name: isArabic ? "آراء العملاء" : "Testimonials",
-                    id: "testimonials",
-                  },
                   { name: isArabic ? "اتصل بنا" : "Contact", id: "contact" },
                 ].map((item, index) => (
                   <motion.button
@@ -433,6 +408,10 @@ function App() {
                     {
                       name: isArabic ? "مشاريعنا" : "Projects",
                       id: "projects",
+                    },
+                    {
+                      name: isArabic ? "لماذا نحن؟" : "Why Us",
+                      id: "why-us",
                     },
                     {
                       name: isArabic ? "آراء العملاء" : "Testimonials",
@@ -510,7 +489,7 @@ function App() {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="https://wa.me/+201207039410" // استبدل YOUR_PHONE_NUMBER برقم واتساب الخاص بك
+                    href="https://wa.me/+201207039410"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
@@ -629,9 +608,96 @@ function App() {
           </div>
         </section>
 
+        {/* About Section */}
+        <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <AnimatedSection>
+              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
+                {isArabic ? "من نحن؟" : "About Us"}
+              </h2>
+            </AnimatedSection>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <AnimatedSection>
+                <img
+                  src={About}
+                  alt={isArabic ? "من نحن؟" : "About Us"}
+                  className="w-full md:w-auto max-w-lg"
+                />
+              </AnimatedSection>
+              <AnimatedSection>
+                <div className="space-y-6">
+                  <h3 className="text-3xl font-semibold text-gray-900">
+                    Our Story
+                  </h3>
+                  <p className="text-white text-800 leading-relaxed">
+                    {isArabic ? (
+                      <p>
+                        تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية مبتكرة
+                        تلبي احتياجات العملاء وتتجاوز توقعاتهم. منذ بدايتنا، كنا
+                        ملتزمين بالابتكار المستمر وتقديم خدمات ذات جودة عالية
+                        تساعد الشركات على النمو والتطور. نحن نؤمن بأن
+                        التكنولوجيا يمكن أن تكون أداة قوية لحل المشكلات وتحقيق
+                        الأهداف. لذلك، نسعى دائمًا لتطوير حلول تكنولوجية تتناسب
+                        مع احتياجات كل عميل على حدة، مع التركيز على الكفاءة
+                        والفعالية. فريقنا مكون من متخصصين ذوي خبرة عالية في
+                        مجالات متعددة، من التطوير البرمجي وتصميم الواجهات إلى
+                        إدارة المشاريع وتحليل البيانات. نحن نعمل معًا بروح
+                        الفريق الواحد لضمان تقديم أفضل النتائج لعملائنا. نحن
+                        نفخر بأننا نقدم خدماتنا بشفافية واحترافية، ونسعى دائمًا
+                        لبناء علاقات طويلة الأمد مع عملائنا. نحن نعتبر نجاح
+                        عملائنا نجاحًا لنا، ولذلك نعمل بجد لتحقيق أهدافهم وتجاوز
+                        توقعاتهم. في فكرة.، نحن نستثمر في التكنولوجيا الحديثة
+                        ونسعى دائمًا لتحسين مهاراتنا وخدماتنا. نحن نؤمن بأن
+                        التعلم المستمر والتطوير المهني هما مفتاح النجاح في عالم
+                        متغير باستمرار. نحن هنا لنكون شركاء استراتيجيين
+                        لعملائنا، ونساعدهم على التكيف مع التحديات الجديدة
+                        والاستفادة من الفرص المتاحة. نحن نفخر بأننا نقدم حلولًا
+                        لا تقتصر على مجرد تلبية الاحتياجات الحالية، بل تساعد
+                        أيضًا في تحقيق النمو والتطور على المدى الطويل.
+                      </p>
+                    ) : (
+                      <p>
+                        Founded in 2020, Fikra. has been at the forefront of
+                        digital innovation, committed to delivering solutions
+                        that not only meet but exceed client expectations. From
+                        our inception, we have been dedicated to continuous
+                        innovation and providing high-quality services that help
+                        businesses grow and evolve. We believe that technology
+                        can be a powerful tool for solving problems and
+                        achieving goals. Therefore, we strive to develop
+                        technological solutions tailored to each client's unique
+                        needs, focusing on efficiency and effectiveness. Our
+                        team comprises highly experienced specialists across
+                        various fields, from software development and UI design
+                        to project management and data analysis. We work
+                        together as a cohesive unit to ensure the best outcomes
+                        for our clients. We pride ourselves on offering our
+                        services with transparency and professionalism, always
+                        aiming to build long-term relationships with our
+                        clients. We consider our clients' success our own and
+                        work diligently to achieve their goals and surpass their
+                        expectations. At Fikra., we invest in modern technology
+                        and continuously seek to improve our skills and
+                        services. We believe that continuous learning and
+                        professional development are key to success in an
+                        ever-changing world. We are here to be strategic
+                        partners for our clients, helping them adapt to new
+                        challenges and capitalize on available opportunities. We
+                        take pride in offering solutions that not only address
+                        current needs but also facilitate long-term growth and
+                        development.
+                      </p>
+                    )}
+                  </p>
+                </div>
+              </AnimatedSection>
+            </div>
+          </div>
+        </section>
+
         <section
           id="why-us"
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 "
         >
           <div className="max-w-7xl mx-auto">
             <AnimatedBackground />
@@ -754,71 +820,6 @@ function App() {
                     loading="lazy"
                   />
                 </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section
-          id="testimonials"
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900"
-        >
-          <div className="max-w-7xl mx-auto">
-            <AnimatedBackground />
-            <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "آراء العملاء" : "Client Testimonials"}
-              </h2>
-            </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <AnimatedSection key={index} delay={index * 0.2}>
-                  <AnimatedCard className="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                    <div className="flex items-center mb-4">
-                      <motion.img
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        src={testimonial.image}
-                        alt={
-                          isArabic ? testimonial.name.ar : testimonial.name.en
-                        }
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div className="mr-4">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                          {isArabic ? testimonial.name.ar : testimonial.name.en}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          {isArabic ? testimonial.role.ar : testimonial.role.en}{" "}
-                          {isArabic ? "في" : "at"}{" "}
-                          {isArabic
-                            ? testimonial.company.ar
-                            : testimonial.company.en}
-                        </p>
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <svg
-                              key={i}
-                              className="w-4 h-4 text-yellow-500"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M9.049 2.927a1 1 0 011.902 0l1.949 3.945a1 1 0 00.753.547l4.354.634a1 1 0 01.555 1.705l-3.148 3.07a1 1 0 00-.287.885l.743 4.328a1 1 0 01-1.451 1.054L10 15.347l-3.89 2.046a1 1 0 01-1.451-1.054l.743-4.328a1 1 0 00-.287-.885L2.034 9.758a1 1 0 01.555-1.705l4.354-.634a1 1 0 00.753-.547L9.049 2.927z" />
-                            </svg>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 italic dark:text-gray-300">
-                      "
-                      {isArabic
-                        ? testimonial.content.ar
-                        : testimonial.content.en}
-                      "
-                    </p>
-                  </AnimatedCard>
-                </AnimatedSection>
               ))}
             </div>
           </div>
