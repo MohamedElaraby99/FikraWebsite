@@ -201,6 +201,11 @@ function App() {
       icon: "Facebook",
       url: "https://www.facebook.com/share/1AN2gA2bMq/",
     },
+    {
+      id: 4,
+      icon: "Linkedin",
+      url: "https://www.linkedin.com/in/fikra-software/",
+    },
     { id: 2, icon: "Mail", url: "mailto:softwarefikra@gmail.com" },
     { id: 3, icon: "Phone", url: "tel:+201207039410" },
   ];
