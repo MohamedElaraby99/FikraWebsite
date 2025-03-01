@@ -41,7 +41,7 @@ import About from "./Images/About.webp";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isArabic, setIsArabic] = useState(false);
+  const [isArabic, setIsArabic] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
@@ -626,10 +626,10 @@ function App() {
               </AnimatedSection>
               <AnimatedSection>
                 <div className="space-y-6">
-                  <h3 className="text-3xl font-semibold text-gray-900">
+                  <h3 className="text-3xl font-semibold text-gray-900 dark:text-white">
                     Our Story
                   </h3>
-                  <p className="text-white text-800 leading-relaxed">
+                  <p className="text-black dark:text-white text-800 leading-relaxed">
                     {isArabic ? (
                       <p>
                         تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية مبتكرة
