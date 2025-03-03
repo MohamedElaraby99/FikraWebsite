@@ -130,15 +130,56 @@ function App() {
       },
       icon: "Laptop",
     },
+    {
+      title: { en: "E-commerce Design", ar: "تصميم متاجر إلكترونية" },
+      description: {
+        en: "Professional e-commerce store design services",
+        ar: "خدمات تصميم متاجر إلكترونية احترافية",
+      },
+      icon: "ShoppingCart",
+    },
+    {
+      title: { en: "WordPress Development", ar: "تطوير ووردبريس" },
+      description: {
+        en: "Custom WordPress solutions tailored to your needs",
+        ar: "حلول ووردبريس مخصصة حسب احتياجاتك",
+      },
+      icon: "Wordpress",
+    },
+    {
+      title: { en: "SEO Services", ar: "خدمات تحسين محركات البحث" },
+      description: {
+        en: "Improve your website's visibility on search engines",
+        ar: "تحسين مرئية موقعك على محركات البحث",
+      },
+      icon: "Search",
+    },
+    {
+      title: { en: "Graphic Design", ar: "تصاميم جرافيك" },
+      description: {
+        en: "Creative graphic design services for your brand",
+        ar: "خدمات تصميم جرافيك إبداعية لعلامتك التجارية",
+      },
+      icon: "PaintBrush",
+    },
+    {
+      title: { en: "Digital Marketing", ar: "التسويق الإلكتروني" },
+      description: {
+        en: "Effective digital marketing strategies to boost your business",
+        ar: "استراتيجيات تسويق إلكتروني فعالة لتعزيز أعمالك",
+      },
+      icon: "Megaphone",
+    },
   ];
+
 
   const achievements = [
     {
       title: { en: "Completed Projects", ar: "مشاريع منجزة" },
       value: "150+",
       description: {
-        en: "Successfully completed project",
-        ar: "مشروع تم إنجازه بنجاح",
+        en: "Successfully completed projects",
+        ar: "مشاريع تم إنجازها بنجاح",
       },
       icon: "Target",
     },
@@ -146,8 +187,8 @@ function App() {
       title: { en: "Happy Clients", ar: "عملاء سعداء" },
       value: "200+",
       description: {
-        en: "Satisfied client with our services",
-        ar: "عميل راضٍ عن خدماتنا",
+        en: "Satisfied clients with our services",
+        ar: "عملاء راضون عن خدماتنا",
       },
       icon: "Users",
     },
@@ -155,12 +196,55 @@ function App() {
       title: { en: "Awards of Excellence", ar: "جوائز التميز" },
       value: "25+",
       description: {
-        en: "Award in the field of technology",
-        ar: "جائزة في مجال التقنية",
+        en: "Awards in the field of technology",
+        ar: "جوائز في مجال التقنية",
       },
       icon: "Award",
     },
+    {
+      title: {
+        en: "E-commerce Stores Designed",
+        ar: "متاجر إلكترونية تم تصميمها",
+      },
+      value: "50+",
+      description: {
+        en: "Professionally designed e-commerce stores",
+        ar: "متاجر إلكترونية تم تصميمها بشكل احترافي",
+      },
+      icon: "ShoppingCart",
+    },
+    {
+      title: {
+        en: "SEO Projects Completed",
+        ar: "مشاريع تحسين محركات البحث منجزة",
+      },
+      value: "75+",
+      description: {
+        en: "Successfully completed SEO projects",
+        ar: "مشاريع تحسين محركات البحث تم إنجازها بنجاح",
+      },
+      icon: "Search",
+    },
+    {
+      title: { en: "Graphic Design Projects", ar: "مشاريع تصميم جرافيك" },
+      value: "100+",
+      description: {
+        en: "Creative graphic design projects completed",
+        ar: "مشاريع تصميم جرافيك إبداعية تم إنجازها",
+      },
+      icon: "PaintBrush",
+    },
+    {
+      title: { en: "Digital Marketing Campaigns", ar: "حملات تسويق إلكتروني" },
+      value: "60+",
+      description: {
+        en: "Effective digital marketing campaigns launched",
+        ar: "حملات تسويق إلكتروني فعالة تم إطلاقها",
+      },
+      icon: "Megaphone",
+    },
   ];
+
 
   const projects = [
     {
@@ -193,7 +277,58 @@ function App() {
         "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       tags: ["React", "Firebase", "Analytics"],
     },
+    {
+      title: { en: "E-commerce Store Design", ar: "تصميم متجر إلكتروني" },
+      description: {
+        en: "Professional e-commerce store design for online businesses",
+        ar: "تصميم متجر إلكتروني احترافي للأعمال التجارية عبر الإنترنت",
+      },
+      image:
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      tags: ["E-commerce", "Web Design", "UI/UX"],
+    },
+    {
+      title: { en: "WordPress Development", ar: "تطوير ووردبريس" },
+      description: {
+        en: "Custom WordPress solutions tailored to your business needs",
+        ar: "حلول ووردبريس مخصصة حسب احتياجات عملك",
+      },
+      image:
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      tags: ["WordPress", "Web Development", "CMS"],
+    },
+    {
+      title: { en: "SEO Optimization", ar: "تحسين محركات البحث" },
+      description: {
+        en: "Improve your website's visibility on search engines",
+        ar: "تحسين مرئية موقعك على محركات البحث",
+      },
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      tags: ["SEO", "Digital Marketing", "Analytics"],
+    },
+    {
+      title: { en: "Graphic Design", ar: "تصميم جرافيك" },
+      description: {
+        en: "Creative graphic design services for your brand",
+        ar: "خدمات تصميم جرافيك إبداعية لعلامتك التجارية",
+      },
+      image:
+        "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      tags: ["Graphic Design", "Branding", "Creative"],
+    },
+    {
+      title: { en: "Digital Marketing Campaign", ar: "حملة تسويق إلكتروني" },
+      description: {
+        en: "Effective digital marketing strategies to boost your business",
+        ar: "استراتيجيات تسويق إلكتروني فعالة لتعزيز أعمالك",
+      },
+      image:
+        "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      tags: ["Digital Marketing", "Social Media", "Advertising"],
+    },
   ];
+
 
   const socialLinks = [
     {
@@ -421,10 +556,6 @@ function App() {
                       name: isArabic ? "لماذا نحن؟" : "Why Us",
                       id: "why-us",
                     },
-                    {
-                      name: isArabic ? "آراء العملاء" : "Testimonials",
-                      id: "testimonials",
-                    },
                     { name: isArabic ? "اتصل بنا" : "Contact", id: "contact" },
                   ].map((item, index) => (
                     <motion.button
@@ -635,66 +766,123 @@ function App() {
               <AnimatedSection>
                 <div className="space-y-6">
                   <h3 className="text-3xl font-semibold text-gray-900 dark:text-white">
-                    Our Story
+                    {isArabic ? "فكرة" : "Fikra"}
                   </h3>
                   <p className="text-black dark:text-white text-800 leading-relaxed">
                     {isArabic ? (
-                      <p>
-                        تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية مبتكرة
-                        تلبي احتياجات العملاء وتتجاوز توقعاتهم. منذ بدايتنا، كنا
-                        ملتزمين بالابتكار المستمر وتقديم خدمات ذات جودة عالية
-                        تساعد الشركات على النمو والتطور. نحن نؤمن بأن
-                        التكنولوجيا يمكن أن تكون أداة قوية لحل المشكلات وتحقيق
-                        الأهداف. لذلك، نسعى دائمًا لتطوير حلول تكنولوجية تتناسب
-                        مع احتياجات كل عميل على حدة، مع التركيز على الكفاءة
-                        والفعالية. فريقنا مكون من متخصصين ذوي خبرة عالية في
-                        مجالات متعددة، من التطوير البرمجي وتصميم الواجهات إلى
-                        إدارة المشاريع وتحليل البيانات. نحن نعمل معًا بروح
-                        الفريق الواحد لضمان تقديم أفضل النتائج لعملائنا. نحن
-                        نفخر بأننا نقدم خدماتنا بشفافية واحترافية، ونسعى دائمًا
-                        لبناء علاقات طويلة الأمد مع عملائنا. نحن نعتبر نجاح
-                        عملائنا نجاحًا لنا، ولذلك نعمل بجد لتحقيق أهدافهم وتجاوز
-                        توقعاتهم. في فكرة.، نحن نستثمر في التكنولوجيا الحديثة
-                        ونسعى دائمًا لتحسين مهاراتنا وخدماتنا. نحن نؤمن بأن
-                        التعلم المستمر والتطوير المهني هما مفتاح النجاح في عالم
-                        متغير باستمرار. نحن هنا لنكون شركاء استراتيجيين
-                        لعملائنا، ونساعدهم على التكيف مع التحديات الجديدة
-                        والاستفادة من الفرص المتاحة. نحن نفخر بأننا نقدم حلولًا
-                        لا تقتصر على مجرد تلبية الاحتياجات الحالية، بل تساعد
-                        أيضًا في تحقيق النمو والتطور على المدى الطويل.
-                      </p>
+                      <>
+                        <p>
+                          تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية مبتكرة
+                          تلبي احتياجات العملاء وتتجاوز توقعاتهم.
+                        </p>
+                        <p>
+                          نحن ملتزمون بالابتكار المستمر وتقديم خدمات ذات جودة
+                          عالية تساعد الشركات على النمو والتطور.
+                        </p>
+                        <p>
+                          نؤمن بأن التكنولوجيا يمكن أن تكون أداة قوية لحل
+                          المشكلات وتحقيق الأهداف.
+                        </p>
+                        <p>
+                          نسعى دائمًا لتطوير حلول تكنولوجية تتناسب مع احتياجات
+                          كل عميل على حدة، مع التركيز على الكفاءة والفعالية.
+                        </p>
+                        <p>
+                          فريقنا مكون من متخصصين ذوي خبرة عالية في مجالات
+                          متعددة، من التطوير البرمجي وتصميم الواجهات إلى إدارة
+                          المشاريع وتحليل البيانات.
+                        </p>
+                        <p>
+                          نحن نعمل معًا بروح الفريق الواحد لضمان تقديم أفضل
+                          النتائج لعملائنا.
+                        </p>
+                        <p>
+                          نفخر بأننا نقدم خدماتنا بشفافية واحترافية، ونسعى
+                          دائمًا لبناء علاقات طويلة الأمد مع عملائنا.
+                        </p>
+                        <p>
+                          نعتبر نجاح عملائنا نجاحًا لنا، ولذلك نعمل بجد لتحقيق
+                          أهدافهم وتجاوز توقعاتهم.
+                        </p>
+                        <p>
+                          نستثمر في التكنولوجيا الحديثة ونسعى دائمًا لتحسين
+                          مهاراتنا وخدماتنا.
+                        </p>
+                        <p>
+                          نؤمن بأن التعلم المستمر والتطوير المهني هما مفتاح
+                          النجاح في عالم متغير باستمرار.
+                        </p>
+                        <p>
+                          نحن هنا لنكون شركاء استراتيجيين لعملائنا، ونساعدهم على
+                          التكيف مع التحديات الجديدة والاستفادة من الفرص
+                          المتاحة.
+                        </p>
+                        <p>
+                          نفخر بأننا نقدم حلولًا لا تقتصر على مجرد تلبية
+                          الاحتياجات الحالية، بل تساعد أيضًا في تحقيق النمو
+                          والتطور على المدى الطويل.
+                        </p>
+                      </>
                     ) : (
-                      <p>
-                        Founded in 2020, Fikra. has been at the forefront of
-                        digital innovation, committed to delivering solutions
-                        that not only meet but exceed client expectations. From
-                        our inception, we have been dedicated to continuous
-                        innovation and providing high-quality services that help
-                        businesses grow and evolve. We believe that technology
-                        can be a powerful tool for solving problems and
-                        achieving goals. Therefore, we strive to develop
-                        technological solutions tailored to each client's unique
-                        needs, focusing on efficiency and effectiveness. Our
-                        team comprises highly experienced specialists across
-                        various fields, from software development and UI design
-                        to project management and data analysis. We work
-                        together as a cohesive unit to ensure the best outcomes
-                        for our clients. We pride ourselves on offering our
-                        services with transparency and professionalism, always
-                        aiming to build long-term relationships with our
-                        clients. We consider our clients' success our own and
-                        work diligently to achieve their goals and surpass their
-                        expectations. At Fikra., we invest in modern technology
-                        and continuously seek to improve our skills and
-                        services. We believe that continuous learning and
-                        professional development are key to success in an
-                        ever-changing world. We are here to be strategic
-                        partners for our clients, helping them adapt to new
-                        challenges and capitalize on available opportunities. We
-                        take pride in offering solutions that not only address
-                        current needs but also facilitate long-term growth and
-                        development.
-                      </p>
+                      <>
+                        <p>
+                          Founded in 2020, Fikra. has been at the forefront of
+                          digital innovation, committed to delivering solutions
+                          that not only meet but exceed client expectations.
+                        </p>
+                        <p>
+                          We are dedicated to continuous innovation and
+                          providing high-quality services that help businesses
+                          grow and evolve.
+                        </p>
+                        <p>
+                          We believe that technology can be a powerful tool for
+                          solving problems and achieving goals.
+                        </p>
+                        <p>
+                          We strive to develop technological solutions tailored
+                          to each client's unique needs, focusing on efficiency
+                          and effectiveness.
+                        </p>
+                        <p>
+                          Our team comprises highly experienced specialists
+                          across various fields, from software development and
+                          UI design to project management and data analysis.
+                        </p>
+                        <p>
+                          We work together as a cohesive unit to ensure the best
+                          outcomes for our clients.
+                        </p>
+                        <p>
+                          We pride ourselves on offering our services with
+                          transparency and professionalism, always aiming to
+                          build long-term relationships with our clients.
+                        </p>
+                        <p>
+                          We consider our clients' success our own and work
+                          diligently to achieve their goals and surpass their
+                          expectations.
+                        </p>
+                        <p>
+                          At Fikra., we invest in modern technology and
+                          continuously seek to improve our skills and services.
+                        </p>
+                        <p>
+                          We believe that continuous learning and professional
+                          development are key to success in an ever-changing
+                          world.
+                        </p>
+                        <p>
+                          We are here to be strategic partners for our clients,
+                          helping them adapt to new challenges and capitalize on
+                          available opportunities.
+                        </p>
+                        <p>
+                          We take pride in offering solutions that not only
+                          address current needs but also facilitate long-term
+                          growth and development.
+                        </p>
+                      </>
                     )}
                   </p>
                 </div>
@@ -786,7 +974,7 @@ function App() {
                             initial={{ opacity: 0, scale: 0.8 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.1 }}
-                            className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"
+                            className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm dark:bg-gray-700 dark:text-blue-300"
                           >
                             {tag}
                           </motion.span>
@@ -824,7 +1012,7 @@ function App() {
                   <img
                     src={partner.image}
                     alt={partner.name}
-                    className="w-full h-auto object-contain"
+                    className="w-full h-auto max-w-full max-h-full object-contain"
                     loading="lazy"
                   />
                 </motion.div>
