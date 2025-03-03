@@ -1,4 +1,3 @@
-// App.js
 import { useState, FormEvent, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -38,11 +37,14 @@ import { ThemeProvider } from "./components/ThemeContext";
 import AnimatedBackground from "./AnimatedBackground";
 import features from "./Images/features.webp";
 import About from "./Images/About.webp";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -103,6 +105,15 @@ function App() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Simulate a loading state
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const services = [
@@ -171,7 +182,6 @@ function App() {
       icon: "Megaphone",
     },
   ];
-
 
   const achievements = [
     {
@@ -244,7 +254,6 @@ function App() {
       icon: "Megaphone",
     },
   ];
-
 
   const projects = [
     {
@@ -329,18 +338,13 @@ function App() {
     },
   ];
 
-
   const socialLinks = [
     {
       id: 1,
       icon: "Facebook",
       url: "https://www.facebook.com/share/1AN2gA2bMq/",
     },
-    {
-      id: 4,
-      icon: "Linkedin",
-      url: "https://www.linkedin.com/in/fikra-software/",
-    },
+
     { id: 2, icon: "Mail", url: "mailto:softwarefikra@gmail.com" },
     { id: 3, icon: "Phone", url: "tel:+201207039410" },
   ];
@@ -467,18 +471,22 @@ function App() {
                 transition={{ duration: 0.5 }}
                 className="text-2xl font-bold bg-gradient-to-r from-blue-800 to-blue-800 bg-clip-text text-transparent"
               >
-                <img
-                  src={logo}
-                  alt="Logo"
-                  style={{
-                    direction: "rtl",
-                    marginTop: "10px",
-                    width: "100px",
-                    height: "70px",
-                    cursor: "pointer",
-                    marginBottom: "5px",
-                  }}
-                />
+                {isLoading ? (
+                  <Skeleton width={100} height={70} />
+                ) : (
+                  <img
+                    src={logo}
+                    alt="Logo"
+                    style={{
+                      direction: "rtl",
+                      marginTop: "10px",
+                      width: "100px",
+                      height: "70px",
+                      cursor: "pointer",
+                      marginBottom: "5px",
+                    }}
+                  />
+                )}
               </motion.span>
 
               {/* Desktop Menu */}
@@ -500,7 +508,7 @@ function App() {
                     className="text-gray-700 hover:text-blue-600 transition cursor-pointer dark:text-gray-300 dark:hover:text-blue-400"
                     aria-label={`Navigate to ${item.name}`}
                   >
-                    {item.name}
+                    {isLoading ? <Skeleton width={60} /> : item.name}
                   </motion.button>
                 ))}
                 <motion.button
@@ -509,7 +517,13 @@ function App() {
                   className="text-gray-700 hover:text-blue-600 transition cursor-pointer dark:text-gray-300 dark:hover:text-blue-400"
                   aria-label="Toggle Language"
                 >
-                  {isArabic ? "English" : "عربي"}
+                  {isLoading ? (
+                    <Skeleton width={50} />
+                  ) : isArabic ? (
+                    "English"
+                  ) : (
+                    "عربي"
+                  )}
                 </motion.button>
                 <ThemeToggle />
               </div>
@@ -567,7 +581,7 @@ function App() {
                       className="block text-gray-700 text-lg font-medium hover:text-blue-600 transition cursor-pointer text-right dark:text-gray-300 dark:hover:text-blue-400"
                       aria-label={`Navigate to ${item.name}`}
                     >
-                      {item.name}
+                      {isLoading ? <Skeleton width={100} /> : item.name}
                     </motion.button>
                   ))}
                   <motion.button
@@ -578,7 +592,13 @@ function App() {
                     className="block text-gray-700 text-lg font-medium hover:text-blue-600 transition cursor-pointer text-right dark:text-gray-300 dark:hover:text-blue-400"
                     aria-label="Toggle Language"
                   >
-                    {isArabic ? "English" : "عربي"}
+                    {isLoading ? (
+                      <Skeleton width={80} />
+                    ) : isArabic ? (
+                      "English"
+                    ) : (
+                      "عربي"
+                    )}
                   </motion.button>
                   <ThemeToggle />
                 </div>
@@ -600,14 +620,20 @@ function App() {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="text-5xl font-bold text-gray-900 mb-6 dark:text-gray-100"
                 >
-                  <span className="block">
-                    {isArabic
-                      ? "حول رؤيتك الرقمية إلى واقع"
-                      : "Turn your digital vision into reality"}
-                  </span>
-                  <span className="block text-blue-600 mt-2">
-                    {isArabic ? "مع فكرة" : "with Fikra"}
-                  </span>
+                  {isLoading ? (
+                    <Skeleton width={300} height={60} />
+                  ) : (
+                    <>
+                      <span className="block">
+                        {isArabic
+                          ? "حول رؤيتك الرقمية إلى واقع"
+                          : "Turn your digital vision into reality"}
+                      </span>
+                      <span className="block text-blue-600 mt-2">
+                        {isArabic ? "مع فكرة" : "with Fikra"}
+                      </span>
+                    </>
+                  )}
                 </motion.h1>
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -615,9 +641,15 @@ function App() {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="mt-4 text-xl text-gray-600 dark:text-gray-300"
                 >
-                  {isArabic
-                    ? "حلول تقنية مبتكرة للمؤسسات العصرية"
-                    : "Innovative tech solutions for modern institutions"}
+                  {isLoading ? (
+                    <Skeleton width={250} height={30} />
+                  ) : (
+                    <>
+                      {isArabic
+                        ? "حلول تقنية مبتكرة للمؤسسات العصرية"
+                        : "Innovative tech solutions for modern institutions"}
+                    </>
+                  )}
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -634,8 +666,14 @@ function App() {
                     className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                     aria-label="Start now"
                   >
-                    {isArabic ? "ابدأ الآن" : "Start Now"}
-                    <ChevronUp className="mr-2 h-5 w-5" />
+                    {isLoading ? (
+                      <Skeleton width={100} height={40} />
+                    ) : (
+                      <>
+                        {isArabic ? "ابدأ الآن" : "Start Now"}
+                        <ChevronUp className="mr-2 h-5 w-5" />
+                      </>
+                    )}
                   </motion.a>
                 </motion.div>
               </div>
@@ -647,11 +685,15 @@ function App() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <img
-                  src={webImage}
-                  alt={isArabic ? "تطوير المواقع" : "Web Development"}
-                  className="w-full md:w-auto max-w-lg"
-                />
+                {isLoading ? (
+                  <Skeleton width={400} height={300} />
+                ) : (
+                  <img
+                    src={webImage}
+                    alt={isArabic ? "تطوير المواقع" : "Web Development"}
+                    className="w-full md:w-auto max-w-lg"
+                  />
+                )}
               </motion.div>
             </div>
           </AnimatedSection>
@@ -662,7 +704,13 @@ function App() {
           <div className="max-w-7xl mx-auto">
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "إنجازاتنا" : "Our Achievements"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "إنجازاتنا"
+                ) : (
+                  "Our Achievements"
+                )}
               </h2>
             </AnimatedSection>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -687,15 +735,25 @@ function App() {
                       viewport={{ once: true }}
                       className="text-3xl font-bold text-blue-600 mb-2"
                     >
-                      {achievement.value}
+                      {isLoading ? <Skeleton width={80} /> : achievement.value}
                     </motion.h3>
                     <h4 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                      {isArabic ? achievement.title.ar : achievement.title.en}
+                      {isLoading ? (
+                        <Skeleton width={150} />
+                      ) : isArabic ? (
+                        achievement.title.ar
+                      ) : (
+                        achievement.title.en
+                      )}
                     </h4>
                     <p className="text-gray-600 dark:text-gray-300">
-                      {isArabic
-                        ? achievement.description.ar
-                        : achievement.description.en}
+                      {isLoading ? (
+                        <Skeleton width={200} />
+                      ) : isArabic ? (
+                        achievement.description.ar
+                      ) : (
+                        achievement.description.en
+                      )}
                     </p>
                   </AnimatedCard>
                 </AnimatedSection>
@@ -713,7 +771,13 @@ function App() {
             <AnimatedBackground />
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "خدماتنا" : "Our Services"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "خدماتنا"
+                ) : (
+                  "Our Services"
+                )}
               </h2>
             </AnimatedSection>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -733,12 +797,22 @@ function App() {
                       />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                      {isArabic ? service.title.ar : service.title.en}
+                      {isLoading ? (
+                        <Skeleton width={150} />
+                      ) : isArabic ? (
+                        service.title.ar
+                      ) : (
+                        service.title.en
+                      )}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300">
-                      {isArabic
-                        ? service.description.ar
-                        : service.description.en}
+                      {isLoading ? (
+                        <Skeleton width={200} />
+                      ) : isArabic ? (
+                        service.description.ar
+                      ) : (
+                        service.description.en
+                      )}
                     </p>
                   </AnimatedCard>
                 </AnimatedSection>
@@ -752,136 +826,162 @@ function App() {
           <div className="max-w-7xl mx-auto">
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "من نحن؟" : "About Us"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "من نحن؟"
+                ) : (
+                  "About Us"
+                )}
               </h2>
             </AnimatedSection>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <AnimatedSection>
-                <img
-                  src={About}
-                  alt={isArabic ? "من نحن؟" : "About Us"}
-                  className="w-full md:w-auto max-w-lg"
-                />
+                {isLoading ? (
+                  <Skeleton width={400} height={300} />
+                ) : (
+                  <img
+                    src={About}
+                    alt={isArabic ? "من نحن؟" : "About Us"}
+                    className="w-full md:w-auto max-w-lg"
+                  />
+                )}
               </AnimatedSection>
               <AnimatedSection>
                 <div className="space-y-6">
                   <h3 className="text-3xl font-semibold text-gray-900 dark:text-white">
-                    {isArabic ? "فكرة" : "Fikra"}
+                    {isLoading ? (
+                      <Skeleton width={100} />
+                    ) : isArabic ? (
+                      "فكرة"
+                    ) : (
+                      "Fikra"
+                    )}
                   </h3>
                   <p className="text-black dark:text-white text-800 leading-relaxed">
-                    {isArabic ? (
-                      <>
-                        <p>
-                          تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية مبتكرة
-                          تلبي احتياجات العملاء وتتجاوز توقعاتهم.
-                        </p>
-                        <p>
-                          نحن ملتزمون بالابتكار المستمر وتقديم خدمات ذات جودة
-                          عالية تساعد الشركات على النمو والتطور.
-                        </p>
-                        <p>
-                          نؤمن بأن التكنولوجيا يمكن أن تكون أداة قوية لحل
-                          المشكلات وتحقيق الأهداف.
-                        </p>
-                        <p>
-                          نسعى دائمًا لتطوير حلول تكنولوجية تتناسب مع احتياجات
-                          كل عميل على حدة، مع التركيز على الكفاءة والفعالية.
-                        </p>
-                        <p>
-                          فريقنا مكون من متخصصين ذوي خبرة عالية في مجالات
-                          متعددة، من التطوير البرمجي وتصميم الواجهات إلى إدارة
-                          المشاريع وتحليل البيانات.
-                        </p>
-                        <p>
-                          نحن نعمل معًا بروح الفريق الواحد لضمان تقديم أفضل
-                          النتائج لعملائنا.
-                        </p>
-                        <p>
-                          نفخر بأننا نقدم خدماتنا بشفافية واحترافية، ونسعى
-                          دائمًا لبناء علاقات طويلة الأمد مع عملائنا.
-                        </p>
-                        <p>
-                          نعتبر نجاح عملائنا نجاحًا لنا، ولذلك نعمل بجد لتحقيق
-                          أهدافهم وتجاوز توقعاتهم.
-                        </p>
-                        <p>
-                          نستثمر في التكنولوجيا الحديثة ونسعى دائمًا لتحسين
-                          مهاراتنا وخدماتنا.
-                        </p>
-                        <p>
-                          نؤمن بأن التعلم المستمر والتطوير المهني هما مفتاح
-                          النجاح في عالم متغير باستمرار.
-                        </p>
-                        <p>
-                          نحن هنا لنكون شركاء استراتيجيين لعملائنا، ونساعدهم على
-                          التكيف مع التحديات الجديدة والاستفادة من الفرص
-                          المتاحة.
-                        </p>
-                        <p>
-                          نفخر بأننا نقدم حلولًا لا تقتصر على مجرد تلبية
-                          الاحتياجات الحالية، بل تساعد أيضًا في تحقيق النمو
-                          والتطور على المدى الطويل.
-                        </p>
-                      </>
+                    {isLoading ? (
+                      <Skeleton count={5} />
                     ) : (
                       <>
-                        <p>
-                          Founded in 2020, Fikra. has been at the forefront of
-                          digital innovation, committed to delivering solutions
-                          that not only meet but exceed client expectations.
-                        </p>
-                        <p>
-                          We are dedicated to continuous innovation and
-                          providing high-quality services that help businesses
-                          grow and evolve.
-                        </p>
-                        <p>
-                          We believe that technology can be a powerful tool for
-                          solving problems and achieving goals.
-                        </p>
-                        <p>
-                          We strive to develop technological solutions tailored
-                          to each client's unique needs, focusing on efficiency
-                          and effectiveness.
-                        </p>
-                        <p>
-                          Our team comprises highly experienced specialists
-                          across various fields, from software development and
-                          UI design to project management and data analysis.
-                        </p>
-                        <p>
-                          We work together as a cohesive unit to ensure the best
-                          outcomes for our clients.
-                        </p>
-                        <p>
-                          We pride ourselves on offering our services with
-                          transparency and professionalism, always aiming to
-                          build long-term relationships with our clients.
-                        </p>
-                        <p>
-                          We consider our clients' success our own and work
-                          diligently to achieve their goals and surpass their
-                          expectations.
-                        </p>
-                        <p>
-                          At Fikra., we invest in modern technology and
-                          continuously seek to improve our skills and services.
-                        </p>
-                        <p>
-                          We believe that continuous learning and professional
-                          development are key to success in an ever-changing
-                          world.
-                        </p>
-                        <p>
-                          We are here to be strategic partners for our clients,
-                          helping them adapt to new challenges and capitalize on
-                          available opportunities.
-                        </p>
-                        <p>
-                          We take pride in offering solutions that not only
-                          address current needs but also facilitate long-term
-                          growth and development.
-                        </p>
+                        {isArabic ? (
+                          <>
+                            <p>
+                              تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية
+                              مبتكرة تلبي احتياجات العملاء وتتجاوز توقعاتهم.
+                            </p>
+                            <p>
+                              نحن ملتزمون بالابتكار المستمر وتقديم خدمات ذات
+                              جودة عالية تساعد الشركات على النمو والتطور.
+                            </p>
+                            <p>
+                              نؤمن بأن التكنولوجيا يمكن أن تكون أداة قوية لحل
+                              المشكلات وتحقيق الأهداف.
+                            </p>
+                            <p>
+                              نسعى دائمًا لتطوير حلول تكنولوجية تتناسب مع
+                              احتياجات كل عميل على حدة، مع التركيز على الكفاءة
+                              والفعالية.
+                            </p>
+                            <p>
+                              فريقنا مكون من متخصصين ذوي خبرة عالية في مجالات
+                              متعددة، من التطوير البرمجي وتصميم الواجهات إلى
+                              إدارة المشاريع وتحليل البيانات.
+                            </p>
+                            <p>
+                              نحن نعمل معًا بروح الفريق الواحد لضمان تقديم أفضل
+                              النتائج لعملائنا.
+                            </p>
+                            <p>
+                              نفخر بأننا نقدم خدماتنا بشفافية واحترافية، ونسعى
+                              دائمًا لبناء علاقات طويلة الأمد مع عملائنا.
+                            </p>
+                            <p>
+                              نعتبر نجاح عملائنا نجاحًا لنا، ولذلك نعمل بجد
+                              لتحقيق أهدافهم وتجاوز توقعاتهم.
+                            </p>
+                            <p>
+                              نستثمر في التكنولوجيا الحديثة ونسعى دائمًا لتحسين
+                              مهاراتنا وخدماتنا.
+                            </p>
+                            <p>
+                              نؤمن بأن التعلم المستمر والتطوير المهني هما مفتاح
+                              النجاح في عالم متغير باستمرار.
+                            </p>
+                            <p>
+                              نحن هنا لنكون شركاء استراتيجيين لعملائنا، ونساعدهم
+                              على التكيف مع التحديات الجديدة والاستفادة من الفرص
+                              المتاحة.
+                            </p>
+                            <p>
+                              نفخر بأننا نقدم حلولًا لا تقتصر على مجرد تلبية
+                              الاحتياجات الحالية، بل تساعد أيضًا في تحقيق النمو
+                              والتطور على المدى الطويل.
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <p>
+                              Founded in 2020, Fikra. has been at the forefront
+                              of digital innovation, committed to delivering
+                              solutions that not only meet but exceed client
+                              expectations.
+                            </p>
+                            <p>
+                              We are dedicated to continuous innovation and
+                              providing high-quality services that help
+                              businesses grow and evolve.
+                            </p>
+                            <p>
+                              We believe that technology can be a powerful tool
+                              for solving problems and achieving goals.
+                            </p>
+                            <p>
+                              We strive to develop technological solutions
+                              tailored to each client's unique needs, focusing
+                              on efficiency and effectiveness.
+                            </p>
+                            <p>
+                              Our team comprises highly experienced specialists
+                              across various fields, from software development
+                              and UI design to project management and data
+                              analysis.
+                            </p>
+                            <p>
+                              We work together as a cohesive unit to ensure the
+                              best outcomes for our clients.
+                            </p>
+                            <p>
+                              We pride ourselves on offering our services with
+                              transparency and professionalism, always aiming to
+                              build long-term relationships with our clients.
+                            </p>
+                            <p>
+                              We consider our clients' success our own and work
+                              diligently to achieve their goals and surpass
+                              their expectations.
+                            </p>
+                            <p>
+                              At Fikra., we invest in modern technology and
+                              continuously seek to improve our skills and
+                              services.
+                            </p>
+                            <p>
+                              We believe that continuous learning and
+                              professional development are key to success in an
+                              ever-changing world.
+                            </p>
+                            <p>
+                              We are here to be strategic partners for our
+                              clients, helping them adapt to new challenges and
+                              capitalize on available opportunities.
+                            </p>
+                            <p>
+                              We take pride in offering solutions that not only
+                              address current needs but also facilitate
+                              long-term growth and development.
+                            </p>
+                          </>
+                        )}
                       </>
                     )}
                   </p>
@@ -899,7 +999,13 @@ function App() {
             <AnimatedBackground />
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-gray-900 mb-12 dark:text-gray-100 text-center ">
-                {isArabic ? "لماذا نحن؟" : "Why Choose Us"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "لماذا نحن؟"
+                ) : (
+                  "Why Choose Us"
+                )}
               </h2>
             </AnimatedSection>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center ">
@@ -910,14 +1016,22 @@ function App() {
                     <div className="flex items-center p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800 hover">
                       <div>
                         <h3 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                          {isArabic
-                            ? item.reason.title.ar
-                            : item.reason.title.en}
+                          {isLoading ? (
+                            <Skeleton width={150} />
+                          ) : isArabic ? (
+                            item.reason.title.ar
+                          ) : (
+                            item.reason.title.en
+                          )}
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300">
-                          {isArabic
-                            ? item.reason.content.ar
-                            : item.reason.content.en}
+                          {isLoading ? (
+                            <Skeleton width={200} />
+                          ) : isArabic ? (
+                            item.reason.content.ar
+                          ) : (
+                            item.reason.content.en
+                          )}
                         </p>
                       </div>
                     </div>
@@ -927,11 +1041,15 @@ function App() {
 
               {/* الجزء الأيمن: الصورة */}
               <div className="flex justify-center items-center">
-                <img
-                  src={features} // استبدل بمسار الصورة الخاصة بك
-                  alt={isArabic ? "صورة توضيحية" : "Illustrative Image"}
-                  className=" max-w-full h-auto"
-                />
+                {isLoading ? (
+                  <Skeleton width={400} height={300} />
+                ) : (
+                  <img
+                    src={features} // استبدل بمسار الصورة الخاصة بك
+                    alt={isArabic ? "صورة توضيحية" : "Illustrative Image"}
+                    className=" max-w-full h-auto"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -943,7 +1061,13 @@ function App() {
             <AnimatedBackground />
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "مشاريعنا" : "Our Projects"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "مشاريعنا"
+                ) : (
+                  "Our Projects"
+                )}
               </h2>
             </AnimatedSection>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -960,12 +1084,22 @@ function App() {
                     />
                     <div className="p-6">
                       <h3 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                        {isArabic ? project.title.ar : project.title.en}
+                        {isLoading ? (
+                          <Skeleton width={150} />
+                        ) : isArabic ? (
+                          project.title.ar
+                        ) : (
+                          project.title.en
+                        )}
                       </h3>
                       <p className="text-gray-600 mb-4 dark:text-gray-300">
-                        {isArabic
-                          ? project.description.ar
-                          : project.description.en}
+                        {isLoading ? (
+                          <Skeleton width={200} />
+                        ) : isArabic ? (
+                          project.description.ar
+                        ) : (
+                          project.description.en
+                        )}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag, index) => (
@@ -976,7 +1110,7 @@ function App() {
                             transition={{ delay: index * 0.1 }}
                             className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm dark:bg-gray-700 dark:text-blue-300"
                           >
-                            {tag}
+                            {isLoading ? <Skeleton width={50} /> : tag}
                           </motion.span>
                         ))}
                       </div>
@@ -996,7 +1130,13 @@ function App() {
           <div className="max-w-7xl mx-auto">
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "شركائنا" : "Our Partners"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "شركائنا"
+                ) : (
+                  "Our Partners"
+                )}
               </h2>
             </AnimatedSection>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
@@ -1009,12 +1149,16 @@ function App() {
                   viewport={{ once: true }}
                   className="flex items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
                 >
-                  <img
-                    src={partner.image}
-                    alt={partner.name}
-                    className="w-full h-auto max-w-full max-h-full object-contain"
-                    loading="lazy"
-                  />
+                  {isLoading ? (
+                    <Skeleton width={100} height={100} />
+                  ) : (
+                    <img
+                      src={partner.image}
+                      alt={partner.name}
+                      className="w-full h-auto max-w-full max-h-full object-contain"
+                      loading="lazy"
+                    />
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -1029,7 +1173,13 @@ function App() {
           <div className="max-w-3xl mx-auto">
             <AnimatedSection>
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isArabic ? "اتصل بنا" : "Contact Us"}
+                {isLoading ? (
+                  <Skeleton width={200} />
+                ) : isArabic ? (
+                  "اتصل بنا"
+                ) : (
+                  "Contact Us"
+                )}
               </h2>
               <form className="space-y-6" onSubmit={sendEmail}>
                 <motion.div
@@ -1041,7 +1191,13 @@ function App() {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    {isArabic ? "الاسم" : "Name"}
+                    {isLoading ? (
+                      <Skeleton width={100} />
+                    ) : isArabic ? (
+                      "الاسم"
+                    ) : (
+                      "Name"
+                    )}
                   </label>
                   <input
                     type="text"
@@ -1060,7 +1216,13 @@ function App() {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    {isArabic ? "البريد الإلكتروني" : "Email"}
+                    {isLoading ? (
+                      <Skeleton width={100} />
+                    ) : isArabic ? (
+                      "البريد الإلكتروني"
+                    ) : (
+                      "Email"
+                    )}
                   </label>
                   <input
                     type="email"
@@ -1079,7 +1241,13 @@ function App() {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    {isArabic ? "الرسالة" : "Message"}
+                    {isLoading ? (
+                      <Skeleton width={100} />
+                    ) : isArabic ? (
+                      "الرسالة"
+                    ) : (
+                      "Message"
+                    )}
                   </label>
                   <textarea
                     id="message"
@@ -1100,7 +1268,13 @@ function App() {
                     type="submit"
                     className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
-                    {isArabic ? "إرسال الرسالة" : "Send Message"}
+                    {isLoading ? (
+                      <Skeleton width={100} height={40} />
+                    ) : isArabic ? (
+                      "إرسال الرسالة"
+                    ) : (
+                      "Send Message"
+                    )}
                   </motion.button>
                 </motion.div>
               </form>
@@ -1126,20 +1300,28 @@ function App() {
                       className="text-gray-600 hover:text-blue-600 transition duration-300 dark:text-gray-300 dark:hover:text-blue-400"
                       aria-label={`Visit ${link.icon} profile`}
                     >
-                      {link.icon === "Mail" && <Mail className="h-6 w-6" />}
-                      {link.icon === "Facebook" && (
+                      {isLoading ? (
+                        <Skeleton width={24} height={24} />
+                      ) : link.icon === "Mail" ? (
+                        <Mail className="h-6 w-6" />
+                      ) : link.icon === "Facebook" ? (
                         <Facebook className="h-6 w-6" />
+                      ) : (
+                        <Phone className="h-6 w-6" />
                       )}
-                      {link.icon === "Phone" && <Phone className="h-6 w-6" />}
                     </motion.a>
                   ))}
                 </div>
 
                 {/* Copyright */}
                 <p className="text-gray-600 text-sm sm:text-base dark:text-gray-300">
-                  {isArabic
-                    ? "Fikra Software  . جميع الحقوق محفوظة. © 2025"
-                    : "Fikra Software Platform. All rights reserved. © 2025"}
+                  {isLoading ? (
+                    <Skeleton width={200} />
+                  ) : isArabic ? (
+                    "Fikra Software  . جميع الحقوق محفوظة. © 2025"
+                  ) : (
+                    "Fikra Software Platform. All rights reserved. © 2025"
+                  )}
                 </p>
               </div>
             </AnimatedSection>
