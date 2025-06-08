@@ -1,1368 +1,689 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, useEffect, FormEvent, FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
   X,
-  Code2,
+  ArrowUp,
   BookOpen,
   Laptop,
-  Users,
   Target,
-  Award,
-  ChevronUp,
-  ChevronDown,
+  Code2,
+  MessageCircle,
 } from "lucide-react";
-import { FloatingWhatsApp } from "react-floating-whatsapp";
-import { Phone, Mail, Facebook } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import emailjs from "emailjs-com";
-import { AnimatedSection } from "./components/AnimatedSection";
-import { AnimatedCard } from "./components/AnimatedCard";
-import { AnimatedIcon } from "./components/AnimatedIcon";
-import logo from "./Images/logo.webp";
-import Hostinger from "./Images/Hostinger.webp";
-import mini from "./Images/mini.webp";
-import expo from "./Images/expo.webp";
-import we from "./Images/we.webp";
-import Emaar from "./Images/Emaar.webp";
-import tvs from "./Images/tvs.webp";
-import delta from "./Images/delta.webp";
-import pay from "./Images/pay.webp";
-import voda from "./Images/voda.webp";
-import pal from "./Images/pal.webp";
-import webImage from "./Images/webimage.webp";
-import { ThemeToggle } from "./components/ThemeToggle";
-import { ThemeProvider } from "./components/ThemeContext";
-import AnimatedBackground from "./AnimatedBackground";
-import features from "./Images/features.webp";
-import About from "./Images/About.webp";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import "react-toastify/dist/ReactToastify.css";
 
-function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+// Custom Components
+import { AnimatedSection } from "./components/AnimatedSection";
+import { LazyImage } from "./components/LazyImage";
+import { CountUp } from "./components/CountUp";
+import { ThemeProvider, useTheme } from "./components/ThemeContext";
+import { ThemeToggle } from "./components/ThemeToggle";
+
+// App Data
+import {
+  navLinks,
+  services,
+  projects,
+  achievements,
+  partners,
+  socialLinks,
+} from "./data/content";
+
+// Assets
+import logo from "./Images/logo.webp";
+import heroIllustration from "./Images/ai-hero.webp";
+import aboutImage from "./Images/About.webp";
+
+// Helper function for smooth scrolling
+const scrollToSection = (id: string) => {
+  document
+    .getElementById(id)
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+// Header Component
+interface HeaderProps {
+  isArabic: boolean;
+  toggleLanguage: () => void;
+  isMenuOpen: boolean;
+  setIsMenuOpen: (isOpen: boolean) => void;
+}
+
+const Header: FC<HeaderProps> = ({
+  isArabic,
+  toggleLanguage,
+  isMenuOpen,
+  setIsMenuOpen,
+}) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-background/80 backdrop-blur-lg border-b border-border"
+          : "bg-transparent"
+      }`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 md:h-20 min-h-[80px]">
+          <a
+            href="#"
+            onClick={() => scrollToSection("hero")}
+            className="flex-shrink-0 flex items-center gap-2 py-2"
+          >
+            <img
+              className="h-10 sm:h-12 w-auto"
+              src={logo}
+              alt="Fikra Software Logo"
+            />
+            <span className="text-lg sm:text-xl font-bold text-foreground arabic">
+              Fikra Software
+            </span>
+          </a>
+
+          <nav className="hidden md:flex items-center space-x-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(link.id);
+                }}
+                className={`font-medium text-foreground/80 hover:text-primary transition-colors ${
+                  isArabic ? "arabic" : ""
+                }`}
+              >
+                {isArabic ? link.ar : link.en}
+              </a>
+            ))}
+          </nav>
+
+          <div className="hidden md:flex items-center space-x-4">
+            <button
+              onClick={toggleLanguage}
+              className="secondary-button !px-4 !py-2"
+            >
+              {isArabic ? "EN" : "ع"}
+            </button>
+            <ThemeToggle />
+          </div>
+
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-foreground"
+            >
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-background/95 backdrop-blur-lg border-t border-border"
+          >
+            <nav className="flex flex-col items-center space-y-4 p-6">
+              {navLinks.map((link) => (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(link.id);
+                    setIsMenuOpen(false);
+                  }}
+                  className={`text-lg font-medium text-foreground hover:text-primary transition-colors ${
+                    isArabic ? "arabic" : ""
+                  }`}
+                >
+                  {isArabic ? link.ar : link.en}
+                </a>
+              ))}
+              <div className="flex items-center space-x-4 pt-4">
+                <button
+                  onClick={toggleLanguage}
+                  className="secondary-button !px-4 !py-2"
+                >
+                  {isArabic ? "EN" : "ع"}
+                </button>
+                <ThemeToggle />
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+};
+
+const App: FC = () => {
   const [isArabic, setIsArabic] = useState(true);
-  const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme } = useTheme();
+
+  const toggleLanguage = () => setIsArabic(!isArabic);
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
 
-    emailjs
-      .sendForm(
+    toast.promise(
+      emailjs.sendForm(
         "service_l6ne5yu",
         "template_bb9xax6",
         form,
         "81d8TyXC4XBXjjcIZ"
-      )
-      .then(
-        () => {
-          toast.success(
-            isArabic
-              ? "تم التواصل معنا بنجاح! سنرد عليك في غضون خمس دقائق."
-              : "Message sent successfully! We will respond within five minutes."
-          );
-        },
-        (error) => {
-          console.error("Error sending email:", error.text);
-          toast.error(
-            isArabic
-              ? "حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى لاحقًا."
-              : "An error occurred while sending the message. Please try again later."
-          );
-        }
-      );
-
+      ),
+      {
+        pending: isArabic ? "جاري إرسال الرسالة..." : "Sending message...",
+        success: isArabic
+          ? "تم التواصل بنجاح! سنرد عليك قريباً."
+          : "Message sent! We will reply soon.",
+        error: isArabic
+          ? "فشل إرسال الرسالة. حاول مرة أخرى."
+          : "Failed to send. Please try again.",
+      }
+    );
     form.reset();
   };
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    setIsMenuOpen(false);
-  };
-
-  const toggleLanguage = () => {
-    setIsArabic(!isArabic);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setShowScrollToTop(true);
-      } else {
-        setShowScrollToTop(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    // Simulate a loading state
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const services = [
-    {
-      title: { en: "Web Development", ar: "تطوير المواقع" },
-      description: {
-        en: "Custom web solutions built with modern technologies",
-        ar: "حلول ويب مخصصة مبنية بأحدث التقنيات",
-      },
-      icon: "Code2",
-    },
-    {
-      title: { en: "Educational Platforms", ar: "المنصات التعليمية" },
-      description: {
-        en: "Interactive learning management systems",
-        ar: "أنظمة إدارة التعلم التفاعلية",
-      },
-      icon: "BookOpen",
-    },
-    {
-      title: { en: "Software Solutions", ar: "حلول البرمجيات" },
-      description: {
-        en: "Enterprise-grade software development",
-        ar: "تطوير برمجيات على مستوى المؤسسات",
-      },
-      icon: "Laptop",
-    },
-    {
-      title: { en: "E-commerce Design", ar: "تصميم متاجر إلكترونية" },
-      description: {
-        en: "Professional e-commerce store design services",
-        ar: "خدمات تصميم متاجر إلكترونية احترافية",
-      },
-      icon: "ShoppingCart",
-    },
-    {
-      title: { en: "WordPress Development", ar: "تطوير ووردبريس" },
-      description: {
-        en: "Custom WordPress solutions tailored to your needs",
-        ar: "حلول ووردبريس مخصصة حسب احتياجاتك",
-      },
-      icon: "Wordpress",
-    },
-    {
-      title: { en: "SEO Services", ar: "خدمات تحسين محركات البحث" },
-      description: {
-        en: "Improve your website's visibility on search engines",
-        ar: "تحسين مرئية موقعك على محركات البحث",
-      },
-      icon: "Search",
-    },
-    {
-      title: { en: "Graphic Design", ar: "تصاميم جرافيك" },
-      description: {
-        en: "Creative graphic design services for your brand",
-        ar: "خدمات تصميم جرافيك إبداعية لعلامتك التجارية",
-      },
-      icon: "PaintBrush",
-    },
-    {
-      title: { en: "Digital Marketing", ar: "التسويق الإلكتروني" },
-      description: {
-        en: "Effective digital marketing strategies to boost your business",
-        ar: "استراتيجيات تسويق إلكتروني فعالة لتعزيز أعمالك",
-      },
-      icon: "Megaphone",
-    },
-  ];
-
-  const achievements = [
-    {
-      title: { en: "Completed Projects", ar: "مشاريع منجزة" },
-      value: "150+",
-      description: {
-        en: "Successfully completed projects",
-        ar: "مشاريع تم إنجازها بنجاح",
-      },
-      icon: "Target",
-    },
-    {
-      title: { en: "Happy Clients", ar: "عملاء سعداء" },
-      value: "200+",
-      description: {
-        en: "Satisfied clients with our services",
-        ar: "عملاء راضون عن خدماتنا",
-      },
-      icon: "Users",
-    },
-    {
-      title: { en: "Awards of Excellence", ar: "جوائز التميز" },
-      value: "25+",
-      description: {
-        en: "Awards in the field of technology",
-        ar: "جوائز في مجال التقنية",
-      },
-      icon: "Award",
-    },
-    {
-      title: {
-        en: "E-commerce Stores Designed",
-        ar: "متاجر إلكترونية تم تصميمها",
-      },
-      value: "50+",
-      description: {
-        en: "Professionally designed e-commerce stores",
-        ar: "متاجر إلكترونية تم تصميمها بشكل احترافي",
-      },
-      icon: "ShoppingCart",
-    },
-    {
-      title: {
-        en: "SEO Projects Completed",
-        ar: "مشاريع تحسين محركات البحث منجزة",
-      },
-      value: "75+",
-      description: {
-        en: "Successfully completed SEO projects",
-        ar: "مشاريع تحسين محركات البحث تم إنجازها بنجاح",
-      },
-      icon: "Search",
-    },
-    {
-      title: { en: "Graphic Design Projects", ar: "مشاريع تصميم جرافيك" },
-      value: "100+",
-      description: {
-        en: "Creative graphic design projects completed",
-        ar: "مشاريع تصميم جرافيك إبداعية تم إنجازها",
-      },
-      icon: "PaintBrush",
-    },
-    {
-      title: { en: "Digital Marketing Campaigns", ar: "حملات تسويق إلكتروني" },
-      value: "60+",
-      description: {
-        en: "Effective digital marketing campaigns launched",
-        ar: "حملات تسويق إلكتروني فعالة تم إطلاقها",
-      },
-      icon: "Megaphone",
-    },
-  ];
-
-  const projects = [
-    {
-      title: { en: "E-Learning Platform", ar: "منصة التعليم الإلكتروني" },
-      description: {
-        en: "Integrated educational management system for institutions",
-        ar: "نظام إدارة تعليمي متكامل للمؤسسات التعليمية",
-      },
-      image:
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["React", "Node.js", "MongoDB"],
-    },
-    {
-      title: { en: "Corporate Portal", ar: "بوابة المؤسسات" },
-      description: {
-        en: "Comprehensive solution for corporate management",
-        ar: "حل متكامل لإدارة المؤسسات والشركات",
-      },
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["TypeScript", "React", "AWS"],
-    },
-    {
-      title: { en: "Sales Management System", ar: "نظام إدارة المبيعات" },
-      description: {
-        en: "Integrated platform for managing sales and inventory",
-        ar: "منصة متكاملة لإدارة المبيعات والمخزون",
-      },
-      image:
-        "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["React", "Firebase", "Analytics"],
-    },
-    {
-      title: { en: "E-commerce Store Design", ar: "تصميم متجر إلكتروني" },
-      description: {
-        en: "Professional e-commerce store design for online businesses",
-        ar: "تصميم متجر إلكتروني احترافي للأعمال التجارية عبر الإنترنت",
-      },
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["E-commerce", "Web Design", "UI/UX"],
-    },
-    {
-      title: { en: "WordPress Development", ar: "تطوير ووردبريس" },
-      description: {
-        en: "Custom WordPress solutions tailored to your business needs",
-        ar: "حلول ووردبريس مخصصة حسب احتياجات عملك",
-      },
-      image:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["WordPress", "Web Development", "CMS"],
-    },
-    {
-      title: { en: "SEO Optimization", ar: "تحسين محركات البحث" },
-      description: {
-        en: "Improve your website's visibility on search engines",
-        ar: "تحسين مرئية موقعك على محركات البحث",
-      },
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["SEO", "Digital Marketing", "Analytics"],
-    },
-    {
-      title: { en: "Graphic Design", ar: "تصميم جرافيك" },
-      description: {
-        en: "Creative graphic design services for your brand",
-        ar: "خدمات تصميم جرافيك إبداعية لعلامتك التجارية",
-      },
-      image:
-        "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["Graphic Design", "Branding", "Creative"],
-    },
-    {
-      title: { en: "Digital Marketing Campaign", ar: "حملة تسويق إلكتروني" },
-      description: {
-        en: "Effective digital marketing strategies to boost your business",
-        ar: "استراتيجيات تسويق إلكتروني فعالة لتعزيز أعمالك",
-      },
-      image:
-        "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      tags: ["Digital Marketing", "Social Media", "Advertising"],
-    },
-  ];
-
-  const socialLinks = [
-    {
-      id: 1,
-      icon: "Facebook",
-      url: "https://www.facebook.com/share/1AN2gA2bMq/",
-    },
-
-    { id: 2, icon: "Mail", url: "mailto:softwarefikra@gmail.com" },
-    { id: 3, icon: "Phone", url: "tel:+201207039410" },
-  ];
-
-  const partners = [
-    {
-      name: "Partner 1",
-      image: `${mini}`, // Assuming the image is in the public/Images directory
-    },
-    {
-      name: "Partner 2",
-      image: `${expo}`,
-    },
-    {
-      name: "Partner 3",
-      image: `${Hostinger}`,
-    },
-    {
-      name: "Partner 4",
-      image: `${we}`,
-    },
-    {
-      name: "Partner 5",
-      image: `${Emaar}`,
-    },
-    {
-      name: "Partner 6",
-      image: `${tvs}`,
-    },
-    {
-      name: "Partner 7",
-      image: `${delta}`,
-    },
-    {
-      name: "Partner 8",
-      image: `${pay}`,
-    },
-    {
-      name: "Partner 9",
-      image: `${voda}`,
-    },
-    {
-      name: "Partner 10",
-      image: `${pal}`,
-    },
-  ];
-
-  const whyUs = [
-    {
-      reason: {
-        title: { ar: "التصميم", en: "User-Centric Design" },
-        content: {
-          ar: "تصميم جذاب وسهل يوفر للمستخدم تجربة استخدام رائعة.",
-          en: "Intuitive designs that provide an engaging user experience.",
-        },
-      },
-    },
-    {
-      reason: {
-        title: { ar: "حلول مخصصة", en: "Custom Solutions" },
-        content: {
-          ar: "تطبيقات مخصصة تناسب احتياجات عملك بدقة.",
-          en: "Tailored mobile apps that perfectly fit your business needs.",
-        },
-      },
-    },
-    {
-      reason: {
-        title: { ar: "تسليم سريع", en: "Fast Delivery" },
-        content: {
-          ar: "تطوير سريع وفعال لوضع تطبيقك في السوق بسرعة.",
-          en: "Quick and efficient development to bring your app to market faster.",
-        },
-      },
-    },
-    {
-      reason: {
-        title: { ar: "الأمن أولوية", en: "Security First" },
-        content: {
-          ar: "ميزات أمن عالية لحماية تطبيقك وبيانات المستخدمين.",
-          en: "Top-notch security features to protect your app and user data.",
-        },
-      },
-    },
-  ];
-
   return (
-    <ThemeProvider>
-      <div
-        dir={isArabic ? "rtl" : "ltr"}
-        className="min-h-screen bg-white dark:bg-gray-900"
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-          overflow: "hidden",
-        }}
-      >
-        <AnimatedBackground />
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={isArabic}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        {/* Navigation */}
-        <motion.nav
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed h-20 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200 dark:bg-gray-800/80 dark:border-gray-700"
-        >
-          <div className="max-w-7x1 mx-auto px-4 sm:px-6 lg:px-10">
-            <div className="flex justify-between h-16 items-center">
-              {/* Logo */}
-              <motion.span
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="text-2xl font-bold bg-gradient-to-r from-blue-800 to-blue-800 bg-clip-text text-transparent"
-              >
-                {isLoading ? (
-                  <Skeleton width={100} height={70} />
-                ) : (
-                  <img
-                    src={logo}
-                    alt="Logo"
-                    style={{
-                      direction: "rtl",
-                      marginTop: "10px",
-                      width: "100px",
-                      height: "70px",
-                      cursor: "pointer",
-                      marginBottom: "5px",
-                    }}
-                  />
-                )}
-              </motion.span>
+    <div
+      className={`${isArabic ? "arabic" : ""} bg-background text-foreground`}
+    >
+      <Header
+        isArabic={isArabic}
+        toggleLanguage={toggleLanguage}
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+      />
 
-              {/* Desktop Menu */}
-              <div className="hidden md:flex items-center space-x-6 space-x-reverse">
-                {[
-                  { name: isArabic ? "خدماتنا" : "Services", id: "services" },
-                  {
-                    name: isArabic ? "إنجازاتنا" : "Achievements",
-                    id: "achievements",
-                  },
-                  { name: isArabic ? "من نحن" : "About", id: "about" },
-                  { name: isArabic ? "مشاريعنا" : "Projects", id: "projects" },
-                  { name: isArabic ? "اتصل بنا" : "Contact", id: "contact" },
-                ].map((item, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => scrollToSection(item.id)}
-                    whileHover={{ scale: 1.05 }}
-                    className="text-gray-700 hover:text-blue-600 transition cursor-pointer dark:text-gray-300 dark:hover:text-blue-400"
-                    aria-label={`Navigate to ${item.name}`}
-                  >
-                    {isLoading ? <Skeleton width={60} /> : item.name}
-                  </motion.button>
-                ))}
-                <motion.button
-                  onClick={toggleLanguage}
-                  whileHover={{ scale: 1.05 }}
-                  className="text-gray-700 hover:text-blue-600 transition cursor-pointer dark:text-gray-300 dark:hover:text-blue-400"
-                  aria-label="Toggle Language"
-                >
-                  {isLoading ? (
-                    <Skeleton width={50} />
-                  ) : isArabic ? (
-                    "English"
-                  ) : (
-                    "عربي"
-                  )}
-                </motion.button>
-                <ThemeToggle />
-              </div>
-
-              {/* Mobile Menu Toggle */}
-              <div className="md:hidden flex items-center">
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="text-gray-700 dark:text-gray-300"
-                  aria-label="Toggle menu"
-                >
-                  {isMenuOpen ? (
-                    <X className="h-6 w-6" />
-                  ) : (
-                    <Menu className="h-6 w-6" />
-                  )}
-                </motion.button>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          <AnimatePresence>
-            {isMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="md:hidden absolute top-16 left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40 dark:bg-gray-800 dark:border-gray-700"
-              >
-                <div className="px-4 pt-4 pb-6 flex flex-col space-y-4">
-                  {[
-                    { name: isArabic ? "خدماتنا" : "Services", id: "services" },
-                    {
-                      name: isArabic ? "إنجازاتنا" : "Achievements",
-                      id: "achievements",
-                    },
-                    {
-                      name: isArabic ? "مشاريعنا" : "Projects",
-                      id: "projects",
-                    },
-                    {
-                      name: isArabic ? "لماذا نحن؟" : "Why Us",
-                      id: "why-us",
-                    },
-                    { name: isArabic ? "اتصل بنا" : "Contact", id: "contact" },
-                  ].map((item, index) => (
-                    <motion.button
-                      key={index}
-                      onClick={() => scrollToSection(item.id)}
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="block text-gray-700 text-lg font-medium hover:text-blue-600 transition cursor-pointer text-right dark:text-gray-300 dark:hover:text-blue-400"
-                      aria-label={`Navigate to ${item.name}`}
-                    >
-                      {isLoading ? <Skeleton width={100} /> : item.name}
-                    </motion.button>
-                  ))}
-                  <motion.button
-                    onClick={toggleLanguage}
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 5 * 0.1 }}
-                    className="block text-gray-700 text-lg font-medium hover:text-blue-600 transition cursor-pointer text-right dark:text-gray-300 dark:hover:text-blue-400"
-                    aria-label="Toggle Language"
-                  >
-                    {isLoading ? (
-                      <Skeleton width={80} />
-                    ) : isArabic ? (
-                      "English"
-                    ) : (
-                      "عربي"
-                    )}
-                  </motion.button>
-                  <ThemeToggle />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.nav>
-
-        {/* Hero Section */}
-        <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="max-w-7xl mx-auto">
-            <AnimatedBackground />
-            <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-              {/* Text */}
-              <div className="text-center md:text-right md:w-1/2">
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-5xl font-bold text-gray-900 mb-6 dark:text-gray-100"
-                >
-                  {isLoading ? (
-                    <Skeleton width={300} height={60} />
-                  ) : (
-                    <>
-                      <span className="block">
-                        {isArabic
-                          ? "حول رؤيتك الرقمية إلى واقع"
-                          : "Turn your digital vision into reality"}
-                      </span>
-                      <span className="block text-blue-600 mt-2">
-                        {isArabic ? "مع فكرة" : "with Fikra"}
-                      </span>
-                    </>
-                  )}
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="mt-4 text-xl text-gray-600 dark:text-gray-300"
-                >
-                  {isLoading ? (
-                    <Skeleton width={250} height={30} />
-                  ) : (
-                    <>
-                      {isArabic
-                        ? "حلول تقنية مبتكرة للمؤسسات العصرية"
-                        : "Innovative tech solutions for modern institutions"}
-                    </>
-                  )}
-                </motion.p>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="mt-10"
-                >
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="https://wa.me/+201207039410"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                    aria-label="Start now"
-                  >
-                    {isLoading ? (
-                      <Skeleton width={100} height={40} />
-                    ) : (
-                      <>
-                        {isArabic ? "ابدأ الآن" : "Start Now"}
-                        <ChevronUp className="mr-2 h-5 w-5" />
-                      </>
-                    )}
-                  </motion.a>
-                </motion.div>
-              </div>
-
-              {/* Image */}
-              <motion.div
-                className="md:w-1/2 flex justify-center"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                {isLoading ? (
-                  <Skeleton width={400} height={300} />
-                ) : (
-                  <img
-                    src={webImage}
-                    alt={isArabic ? "تطوير المواقع" : "Web Development"}
-                    className="w-full md:w-auto max-w-lg"
-                  />
-                )}
-              </motion.div>
-            </div>
-          </AnimatedSection>
-        </section>
-
-        {/* Achievements Section */}
-        <section id="achievements" className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "إنجازاتنا"
-                ) : (
-                  "Our Achievements"
-                )}
-              </h2>
-            </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {achievements.map((achievement, index) => (
-                <AnimatedSection key={index} delay={index * 0.2}>
-                  <AnimatedCard className="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-4">
-                      <AnimatedIcon
-                        Icon={
-                          achievement.icon === "Target"
-                            ? Target
-                            : achievement.icon === "Users"
-                            ? Users
-                            : Award
-                        }
-                        className="text-blue-600 dark:text-blue-400"
-                      />
-                    </div>
-                    <motion.h3
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      className="text-3xl font-bold text-blue-600 mb-2"
-                    >
-                      {isLoading ? <Skeleton width={80} /> : achievement.value}
-                    </motion.h3>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                      {isLoading ? (
-                        <Skeleton width={150} />
-                      ) : isArabic ? (
-                        achievement.title.ar
-                      ) : (
-                        achievement.title.en
-                      )}
-                    </h4>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {isLoading ? (
-                        <Skeleton width={200} />
-                      ) : isArabic ? (
-                        achievement.description.ar
-                      ) : (
-                        achievement.description.en
-                      )}
-                    </p>
-                  </AnimatedCard>
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Services Section */}
+      <main>
         <section
-          id="services"
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900"
+          id="hero"
+          className="section-padding pt-32 sm:pt-28 md:pt-24 min-h-screen flex items-center bg-secondary/30"
+          style={{ paddingTop: "calc(env(safe-area-inset-top) + 8rem)" }}
         >
-          <div className="max-w-7xl mx-auto">
-            <AnimatedBackground />
-            <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "خدماتنا"
-                ) : (
-                  "Our Services"
-                )}
-              </h2>
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <AnimatedSection animationType="fadeInLeft">
+              <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
+                {isArabic ? "حلول برمجية ذكية" : "Smart Software Solutions"}
+                <span className="block gradient-text mt-2">
+                  {isArabic
+                    ? "مدعومة بأحدث التقنيات"
+                    : "Powered by Latest Technologies"}
+                </span>
+              </h1>
+              <p className="text-lg md:text-xl text-foreground/80 my-8">
+                {isArabic
+                  ? "في فكرة، نستخدم الذكاء الاصطناعي والتقنيات المتطورة لتطوير حلول برمجية مبتكرة تحول أفكارك إلى واقع رقمي متميز يخدم أهدافك المستقبلية."
+                  : "At Fikra, we use artificial intelligence and advanced technologies to develop innovative software solutions that transform your ideas into outstanding digital reality serving your future goals."}
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("contact");
+                  }}
+                  className="primary-button"
+                >
+                  {isArabic ? "ابدأ مشروعك" : "Start Your Project"}
+                </a>
+                <a
+                  href="#services"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("services");
+                  }}
+                  className="secondary-button"
+                >
+                  {isArabic ? "اكتشف خدماتنا" : "Explore Services"}
+                </a>
+              </div>
             </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <AnimatedSection
+              animationType="fadeInRight"
+              className="flex justify-center"
+            >
+              <LazyImage
+                src={heroIllustration}
+                alt="AI Technology Illustration"
+                className="w-full max-w-lg"
+              />
+            </AnimatedSection>
+          </div>
+        </section>
+
+        <section id="services" className="section-padding">
+          <div className="max-w-7xl mx-auto text-center">
+            <AnimatedSection>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+                {isArabic ? "خدماتنا الاحترافية" : "Our Professional Services"}
+              </h2>
+              <p className="text-lg text-foreground/70 max-w-3xl mx-auto mb-12">
+                {isArabic
+                  ? "نقدم مجموعة متكاملة من الخدمات لتلبية احتياجات أعمالك الرقمية."
+                  : "We offer an integrated set of services to meet your digital business needs."}
+              </p>
+            </AnimatedSection>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {services.map((service, index) => (
-                <AnimatedSection key={index} delay={index * 0.2}>
-                  <AnimatedCard className="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-4">
-                      <AnimatedIcon
-                        Icon={
-                          service.icon === "Code2"
-                            ? Code2
-                            : service.icon === "BookOpen"
-                            ? BookOpen
-                            : Laptop
-                        }
-                        className="text-blue-600 dark:text-blue-400"
-                      />
+                <AnimatedSection
+                  key={index}
+                  delay={index * 0.1}
+                  animationType="scale"
+                >
+                  <div className="p-8 bg-card rounded-xl border border-border h-full text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                    <div className="inline-block p-4 bg-primary/10 rounded-full mb-4">
+                      <service.icon className="w-8 h-8 text-primary" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                      {isLoading ? (
-                        <Skeleton width={150} />
-                      ) : isArabic ? (
-                        service.title.ar
-                      ) : (
-                        service.title.en
-                      )}
+                    <h3 className="text-xl font-bold mb-2">
+                      {isArabic ? service.title.ar : service.title.en}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {isLoading ? (
-                        <Skeleton width={200} />
-                      ) : isArabic ? (
-                        service.description.ar
-                      ) : (
-                        service.description.en
-                      )}
+                    <p className="text-foreground/70">
+                      {isArabic
+                        ? service.description.ar
+                        : service.description.en}
                     </p>
-                  </AnimatedCard>
+                  </div>
                 </AnimatedSection>
               ))}
             </div>
           </div>
         </section>
 
-        {/* About Section */}
-        <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "من نحن؟"
-                ) : (
-                  "About Us"
-                )}
-              </h2>
-            </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <AnimatedSection>
-                {isLoading ? (
-                  <Skeleton width={400} height={300} />
-                ) : (
-                  <img
-                    src={About}
-                    alt={isArabic ? "من نحن؟" : "About Us"}
-                    className="w-full md:w-auto max-w-lg"
-                  />
-                )}
-              </AnimatedSection>
-              <AnimatedSection>
-                <div className="space-y-6">
-                  <h3 className="text-3xl font-semibold text-gray-900 dark:text-white">
-                    {isLoading ? (
-                      <Skeleton width={100} />
-                    ) : isArabic ? (
-                      "فكرة"
-                    ) : (
-                      "Fikra"
-                    )}
-                  </h3>
-                  <p className="text-black dark:text-white text-800 leading-relaxed">
-                    {isLoading ? (
-                      <Skeleton count={5} />
-                    ) : (
-                      <>
-                        {isArabic ? (
-                          <>
-                            <p>
-                              تأسست فكرة. في عام 2020 بهدف تقديم حلول رقمية
-                              مبتكرة تلبي احتياجات العملاء وتتجاوز توقعاتهم.
-                            </p>
-                            <p>
-                              نحن ملتزمون بالابتكار المستمر وتقديم خدمات ذات
-                              جودة عالية تساعد الشركات على النمو والتطور.
-                            </p>
-                            <p>
-                              نؤمن بأن التكنولوجيا يمكن أن تكون أداة قوية لحل
-                              المشكلات وتحقيق الأهداف.
-                            </p>
-                            <p>
-                              نسعى دائمًا لتطوير حلول تكنولوجية تتناسب مع
-                              احتياجات كل عميل على حدة، مع التركيز على الكفاءة
-                              والفعالية.
-                            </p>
-                            <p>
-                              فريقنا مكون من متخصصين ذوي خبرة عالية في مجالات
-                              متعددة، من التطوير البرمجي وتصميم الواجهات إلى
-                              إدارة المشاريع وتحليل البيانات.
-                            </p>
-                            <p>
-                              نحن نعمل معًا بروح الفريق الواحد لضمان تقديم أفضل
-                              النتائج لعملائنا.
-                            </p>
-                            <p>
-                              نفخر بأننا نقدم خدماتنا بشفافية واحترافية، ونسعى
-                              دائمًا لبناء علاقات طويلة الأمد مع عملائنا.
-                            </p>
-                            <p>
-                              نعتبر نجاح عملائنا نجاحًا لنا، ولذلك نعمل بجد
-                              لتحقيق أهدافهم وتجاوز توقعاتهم.
-                            </p>
-                            <p>
-                              نستثمر في التكنولوجيا الحديثة ونسعى دائمًا لتحسين
-                              مهاراتنا وخدماتنا.
-                            </p>
-                            <p>
-                              نؤمن بأن التعلم المستمر والتطوير المهني هما مفتاح
-                              النجاح في عالم متغير باستمرار.
-                            </p>
-                            <p>
-                              نحن هنا لنكون شركاء استراتيجيين لعملائنا، ونساعدهم
-                              على التكيف مع التحديات الجديدة والاستفادة من الفرص
-                              المتاحة.
-                            </p>
-                            <p>
-                              نفخر بأننا نقدم حلولًا لا تقتصر على مجرد تلبية
-                              الاحتياجات الحالية، بل تساعد أيضًا في تحقيق النمو
-                              والتطور على المدى الطويل.
-                            </p>
-                          </>
-                        ) : (
-                          <>
-                            <p>
-                              Founded in 2020, Fikra. has been at the forefront
-                              of digital innovation, committed to delivering
-                              solutions that not only meet but exceed client
-                              expectations.
-                            </p>
-                            <p>
-                              We are dedicated to continuous innovation and
-                              providing high-quality services that help
-                              businesses grow and evolve.
-                            </p>
-                            <p>
-                              We believe that technology can be a powerful tool
-                              for solving problems and achieving goals.
-                            </p>
-                            <p>
-                              We strive to develop technological solutions
-                              tailored to each client's unique needs, focusing
-                              on efficiency and effectiveness.
-                            </p>
-                            <p>
-                              Our team comprises highly experienced specialists
-                              across various fields, from software development
-                              and UI design to project management and data
-                              analysis.
-                            </p>
-                            <p>
-                              We work together as a cohesive unit to ensure the
-                              best outcomes for our clients.
-                            </p>
-                            <p>
-                              We pride ourselves on offering our services with
-                              transparency and professionalism, always aiming to
-                              build long-term relationships with our clients.
-                            </p>
-                            <p>
-                              We consider our clients' success our own and work
-                              diligently to achieve their goals and surpass
-                              their expectations.
-                            </p>
-                            <p>
-                              At Fikra., we invest in modern technology and
-                              continuously seek to improve our skills and
-                              services.
-                            </p>
-                            <p>
-                              We believe that continuous learning and
-                              professional development are key to success in an
-                              ever-changing world.
-                            </p>
-                            <p>
-                              We are here to be strategic partners for our
-                              clients, helping them adapt to new challenges and
-                              capitalize on available opportunities.
-                            </p>
-                            <p>
-                              We take pride in offering solutions that not only
-                              address current needs but also facilitate
-                              long-term growth and development.
-                            </p>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </p>
-                </div>
-              </AnimatedSection>
-            </div>
-          </div>
-        </section>
-
         <section
-          id="why-us"
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 "
+          id="projects"
+          className="section-padding bg-gradient-to-b from-background to-secondary/10"
         >
-          <div className="max-w-7xl mx-auto">
-            <AnimatedBackground />
+          <div className="max-w-7xl mx-auto text-center">
             <AnimatedSection>
-              <h2 className="text-3xl font-bold text-gray-900 mb-12 dark:text-gray-100 text-center ">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "لماذا نحن؟"
-                ) : (
-                  "Why Choose Us"
-                )}
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 gradient-text">
+                {isArabic ? "مشاريعنا المميزة" : "Our Featured Projects"}
               </h2>
+              <p className="text-lg text-foreground/80 max-w-3xl mx-auto mb-16">
+                {isArabic
+                  ? "نفخر بما حققناه من نجاحات مع عملائنا في مختلف المجالات التقنية والحلول المبتكرة التي قدمناها."
+                  : "We take pride in our achievements with clients across various technical fields and the innovative solutions we have delivered."}
+              </p>
             </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center ">
-              {/* الجزء الأيسر: الخصائص */}
-              <div className="flex flex-col space-y-6">
-                {whyUs.map((item, index) => (
-                  <AnimatedSection key={index} delay={index * 0.2}>
-                    <div className="flex items-center p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800 hover">
-                      <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                          {isLoading ? (
-                            <Skeleton width={150} />
-                          ) : isArabic ? (
-                            item.reason.title.ar
-                          ) : (
-                            item.reason.title.en
-                          )}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          {isLoading ? (
-                            <Skeleton width={200} />
-                          ) : isArabic ? (
-                            item.reason.content.ar
-                          ) : (
-                            item.reason.content.en
-                          )}
-                        </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => {
+                // تحديد الأيقونة المناسبة لكل مشروع
+                const getProjectIcon = (projectTitle: string) => {
+                  if (
+                    projectTitle.includes("Learning") ||
+                    projectTitle.includes("التعليم")
+                  ) {
+                    return BookOpen;
+                  } else if (
+                    projectTitle.includes("Corporate") ||
+                    projectTitle.includes("المؤسسات")
+                  ) {
+                    return Laptop;
+                  } else if (
+                    projectTitle.includes("Sales") ||
+                    projectTitle.includes("المبيعات")
+                  ) {
+                    return Target;
+                  }
+                  return Code2;
+                };
+
+                const ProjectIcon = getProjectIcon(project.title.en);
+
+                return (
+                  <AnimatedSection
+                    key={index}
+                    delay={index * 0.15}
+                    animationType="fadeInUp"
+                  >
+                    <div className="relative group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                      <div className="relative bg-card/80 backdrop-blur-sm rounded-3xl border border-border/50 p-8 h-full hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 group-hover:border-primary/30">
+                        {/* أيقونة المشروع */}
+                        <div className="relative mb-6">
+                          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
+                              <ProjectIcon className="w-8 h-8 text-white" />
+                            </div>
+                          </div>
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                        </div>
+
+                        {/* محتوى المشروع */}
+                        <div className="space-y-4">
+                          <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                            {isArabic ? project.title.ar : project.title.en}
+                          </h3>
+
+                          <p className="text-foreground/70 text-sm leading-relaxed min-h-[3rem]">
+                            {isArabic
+                              ? project.description.ar
+                              : project.description.en}
+                          </p>
+
+                          {/* شريط فاصل أنيق */}
+                          <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-accent mx-auto opacity-50 group-hover:opacity-100 group-hover:w-16 transition-all duration-300"></div>
+
+                          {/* تاغز التقنيات */}
+                          <div className="flex flex-wrap justify-center gap-2 pt-2">
+                            {project.tags.map((tag, tagIndex) => (
+                              <span
+                                key={tagIndex}
+                                className="px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 text-primary text-xs rounded-full font-medium border border-primary/20 hover:border-primary/40 transition-colors duration-300"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* زخرفة الزاوية */}
+                        <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-primary/20 group-hover:border-primary/60 transition-colors duration-300"></div>
+                        <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-accent/20 group-hover:border-accent/60 transition-colors duration-300"></div>
                       </div>
                     </div>
                   </AnimatedSection>
-                ))}
-              </div>
-
-              {/* الجزء الأيمن: الصورة */}
-              <div className="flex justify-center items-center">
-                {isLoading ? (
-                  <Skeleton width={400} height={300} />
-                ) : (
-                  <img
-                    src={features} // استبدل بمسار الصورة الخاصة بك
-                    alt={isArabic ? "صورة توضيحية" : "Illustrative Image"}
-                    className=" max-w-full h-auto"
-                  />
-                )}
-              </div>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* Projects Section */}
-        <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <AnimatedBackground />
+        <section id="achievements" className="section-padding bg-secondary/30">
+          <div className="max-w-7xl mx-auto text-center">
             <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "مشاريعنا"
-                ) : (
-                  "Our Projects"
-                )}
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-12">
+                {isArabic
+                  ? "بالأرقام.. قصة نجاحنا"
+                  : "By The Numbers.. Our Success Story"}
               </h2>
             </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <AnimatedSection key={index} delay={index * 0.2}>
-                  <AnimatedCard className="bg-white rounded-lg overflow-hidden shadow-lg dark:bg-gray-800">
-                    <motion.img
-                      initial={{ scale: 1.2 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ duration: 1.5 }}
-                      src={project.image}
-                      alt={isArabic ? project.title.ar : project.title.en}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 dark:text-gray-100">
-                        {isLoading ? (
-                          <Skeleton width={150} />
-                        ) : isArabic ? (
-                          project.title.ar
-                        ) : (
-                          project.title.en
-                        )}
-                      </h3>
-                      <p className="text-gray-600 mb-4 dark:text-gray-300">
-                        {isLoading ? (
-                          <Skeleton width={200} />
-                        ) : isArabic ? (
-                          project.description.ar
-                        ) : (
-                          project.description.en
-                        )}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag, index) => (
-                          <motion.span
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm dark:bg-gray-700 dark:text-blue-300"
-                          >
-                            {isLoading ? <Skeleton width={50} /> : tag}
-                          </motion.span>
-                        ))}
-                      </div>
-                    </div>
-                  </AnimatedCard>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {achievements.map((item, index) => (
+                <AnimatedSection
+                  key={index}
+                  delay={index * 0.1}
+                  animationType="fadeInUp"
+                >
+                  <div className="p-8 bg-card rounded-xl border border-border">
+                    <item.icon className="w-10 h-10 text-accent mx-auto mb-4" />
+                    <h3 className="text-4xl font-extrabold gradient-text">
+                      <CountUp end={item.value} suffix={item.suffix} />
+                    </h3>
+                    <p className="text-lg font-medium text-foreground/80 mt-2">
+                      {isArabic ? item.title.ar : item.title.en}
+                    </p>
+                  </div>
                 </AnimatedSection>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Partners Section */}
-        <section
-          id="partners"
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900"
-        >
-          <div className="max-w-7xl mx-auto">
-            <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "شركائنا"
-                ) : (
-                  "Our Partners"
-                )}
-              </h2>
+        <section id="about" className="section-padding">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <AnimatedSection
+              animationType="fadeInLeft"
+              className="flex justify-center"
+            >
+              <LazyImage
+                src={aboutImage}
+                alt="About Fikra"
+                className="w-full max-w-lg rounded-xl shadow-lg"
+              />
             </AnimatedSection>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            <AnimatedSection animationType="fadeInRight">
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+                {isArabic ? "عن فكرة للبرمجيات" : "About Fikra Software"}
+              </h2>
+              <p className="text-lg text-foreground/80 mb-6">
+                {isArabic
+                  ? "نحن فريق من المطورين والمصممين الشغوفين بالتقنية، نهدف إلى تقديم حلول برمجية مبتكرة تساهم في نجاح شركائنا. نؤمن بقوة الأفكار ونسعى لتحويلها إلى منتجات رقمية استثنائية."
+                  : "We are a team of developers and designers passionate about technology, aiming to provide innovative software solutions that contribute to the success of our partners. We believe in the power of ideas and strive to turn them into exceptional digital products."}
+              </p>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("contact");
+                }}
+                className="primary-button"
+              >
+                {isArabic ? "تواصل معنا" : "Contact Us"}
+              </a>
+            </AnimatedSection>
+          </div>
+        </section>
+
+        <section id="partners" className="py-12 bg-secondary/30">
+          <div className="max-w-7xl mx-auto text-center">
+            <h3 className="text-2xl font-bold mb-8 text-foreground/80">
+              {isArabic ? "شركاؤنا في النجاح" : "Our Partners in Success"}
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4">
               {partners.map((partner, index) => (
-                <motion.div
+                <AnimatedSection
                   key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2, duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className="flex items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+                  delay={index * 0.05}
+                  animationType="scale"
                 >
-                  {isLoading ? (
-                    <Skeleton width={100} height={100} />
-                  ) : (
-                    <img
-                      src={partner.image}
-                      alt={partner.name}
-                      className="w-full h-auto max-w-full max-h-full object-contain"
-                      loading="lazy"
-                    />
-                  )}
-                </motion.div>
+                  <LazyImage
+                    src={partner.image}
+                    alt={partner.name}
+                    className="h-12 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                  />
+                </AnimatedSection>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Contact Section */}
         <section
           id="contact"
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900"
+          className="section-padding bg-gradient-to-br from-secondary/20 to-primary/5"
         >
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto text-center">
             <AnimatedSection>
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-gray-100">
-                {isLoading ? (
-                  <Skeleton width={200} />
-                ) : isArabic ? (
-                  "اتصل بنا"
-                ) : (
-                  "Contact Us"
-                )}
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 gradient-text">
+                {isArabic ? "هل لديك فكرة مشروع؟" : "Have a Project Idea?"}
               </h2>
-              <form className="space-y-6" onSubmit={sendEmail}>
-                <motion.div
-                  initial={{ x: -50, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    {isLoading ? (
-                      <Skeleton width={100} />
-                    ) : isArabic ? (
-                      "الاسم"
-                    ) : (
-                      "Name"
-                    )}
-                  </label>
+              <p className="text-lg text-foreground/80 mb-8">
+                {isArabic
+                  ? "تواصل معنا الآن لنبدأ في تحويلها إلى واقع."
+                  : "Contact us now to start turning it into reality."}
+              </p>
+            </AnimatedSection>
+            <AnimatedSection animationType="fadeInUp">
+              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 border border-border/50 shadow-xl">
+                <form onSubmit={sendEmail} className="space-y-6 text-left">
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <input
+                      type="text"
+                      name="user_name"
+                      placeholder={isArabic ? "الاسم الكامل" : "Full Name"}
+                      required
+                      className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
+                               text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                               focus:ring-2 focus:ring-primary focus:border-primary
+                               transition-all duration-300 ease-in-out
+                               hover:border-primary/50"
+                    />
+                    <input
+                      type="email"
+                      name="user_email"
+                      placeholder={
+                        isArabic ? "البريد الإلكتروني" : "Email Address"
+                      }
+                      required
+                      className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
+                               text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                               focus:ring-2 focus:ring-primary focus:border-primary
+                               transition-all duration-300 ease-in-out
+                               hover:border-primary/50"
+                    />
+                  </div>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    name="subject"
+                    placeholder={isArabic ? "الموضوع" : "Subject"}
                     required
+                    className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
+                             text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                             focus:ring-2 focus:ring-primary focus:border-primary
+                             transition-all duration-300 ease-in-out
+                             hover:border-primary/50"
                   />
-                </motion.div>
-                <motion.div
-                  initial={{ x: -50, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    {isLoading ? (
-                      <Skeleton width={100} />
-                    ) : isArabic ? (
-                      "البريد الإلكتروني"
-                    ) : (
-                      "Email"
-                    )}
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    required
-                  />
-                </motion.div>
-                <motion.div
-                  initial={{ x: -50, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    {isLoading ? (
-                      <Skeleton width={100} />
-                    ) : isArabic ? (
-                      "الرسالة"
-                    ) : (
-                      "Message"
-                    )}
-                  </label>
                   <textarea
-                    id="message"
                     name="message"
-                    rows={4}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    placeholder={isArabic ? "رسالتك" : "Your Message"}
+                    rows={5}
                     required
+                    className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
+                             text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                             focus:ring-2 focus:ring-primary focus:border-primary
+                             transition-all duration-300 ease-in-out
+                             hover:border-primary/50 resize-none"
                   ></textarea>
-                </motion.div>
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    {isLoading ? (
-                      <Skeleton width={100} height={40} />
-                    ) : isArabic ? (
-                      "إرسال الرسالة"
-                    ) : (
-                      "Send Message"
-                    )}
-                  </motion.button>
-                </motion.div>
-              </form>
-            </AnimatedSection>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="bg-white border-t border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <AnimatedSection>
-              <div className="text-center">
-                {/* Social Links */}
-                <div className="flex justify-center space-x-6 mb-6">
-                  {socialLinks.map((link) => (
-                    <motion.a
-                      key={link.id}
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-blue-600 transition duration-300 dark:text-gray-300 dark:hover:text-blue-400"
-                      aria-label={`Visit ${link.icon} profile`}
+                  <div className="text-center pt-4">
+                    <button
+                      type="submit"
+                      className="primary-button text-lg px-8 py-4"
                     >
-                      {isLoading ? (
-                        <Skeleton width={24} height={24} />
-                      ) : link.icon === "Mail" ? (
-                        <Mail className="h-6 w-6" />
-                      ) : link.icon === "Facebook" ? (
-                        <Facebook className="h-6 w-6" />
-                      ) : (
-                        <Phone className="h-6 w-6" />
-                      )}
-                    </motion.a>
-                  ))}
-                </div>
-
-                {/* Copyright */}
-                <p className="text-gray-600 text-sm sm:text-base dark:text-gray-300">
-                  {isLoading ? (
-                    <Skeleton width={200} />
-                  ) : isArabic ? (
-                    "Fikra Software  . جميع الحقوق محفوظة. © 2025"
-                  ) : (
-                    "Fikra Software Platform. All rights reserved. © 2025"
-                  )}
-                </p>
+                      {isArabic ? "إرسال الرسالة" : "Send Message"}
+                    </button>
+                  </div>
+                </form>
               </div>
             </AnimatedSection>
           </div>
-        </footer>
-        <FloatingWhatsApp
-          phoneNumber="+201207039410"
-          accountName="Mohamed"
-          avatar="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-          chatMessage="مرحبًا! كيف يمكنني مساعدتك اليوم؟"
-          placeholder="اكتب رسالتك هنا..."
-          statusMessage="نشط الآن"
-          buttonStyle={{
-            backgroundColor: "#25D366",
-            color: "#FFFFFF",
-            zIndex: 1000,
-          }}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            width: "60px",
-            height: "60px",
-          }}
-        />
+        </section>
+      </main>
 
-        {/* Scroll to Top Button */}
-        {showScrollToTop && (
-          <motion.button
-            onClick={scrollToTop}
-            className="fixed bottom-4 left-4 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Scroll to top"
-          >
-            <ChevronDown className="h-6 w-6 transform rotate-180" />
-          </motion.button>
-        )}
-      </div>
-    </ThemeProvider>
+      <footer className="py-8 bg-secondary/30 border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-foreground/70">
+          <div className="flex justify-center gap-6 mb-4">
+            {socialLinks.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                <link.icon size={24} />
+              </a>
+            ))}
+          </div>
+          <p>
+            &copy; {new Date().getFullYear()}{" "}
+            {isArabic
+              ? "شركة فكرة للبرمجيات. جميع الحقوق محفوظة."
+              : "Fikra Software Co. All Rights Reserved."}
+          </p>
+        </div>
+      </footer>
+
+      <ScrollToTopButton />
+      <WhatsAppButton />
+
+      <ToastContainer
+        theme={theme}
+        position="bottom-right"
+        autoClose={4000}
+        hideProgressBar={false}
+      />
+    </div>
   );
-}
+};
 
-export default App;
+const ScrollToTopButton: FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 primary-button !p-3 z-50"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+        >
+          <ArrowUp size={24} />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// WhatsApp Floating Button Component
+const WhatsAppButton: FC = () => {
+  const whatsappNumber = "+201207039410";
+  const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/[^\d]/g, "")}`;
+
+  return (
+    <motion.a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-8 left-8 z-50 group"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <div className="relative">
+        {/* Animated ring */}
+        <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-30"></div>
+
+        {/* Main button */}
+        <div className="relative bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 group-hover:shadow-green-500/25">
+          <MessageCircle size={28} className="drop-shadow-sm" />
+        </div>
+
+        {/* Tooltip */}
+        <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+          <span className="arabic">تواصل معنا عبر واتساب</span>
+          <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
+        </div>
+      </div>
+    </motion.a>
+  );
+};
+
+const AppWrapper: FC = () => (
+  <ThemeProvider>
+    <App />
+  </ThemeProvider>
+);
+
+export default AppWrapper;
+

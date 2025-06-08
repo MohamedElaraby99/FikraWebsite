@@ -1,110 +1,172 @@
 import {
-  Service,
-  Project,
-  Testimonial,
-  Achievement,
-} from "../types";
+  Code2,
+  BookOpen,
+  Laptop,
+  ShoppingCart,
+  Palette,
+  Search,
+  Megaphone,
+  Target,
+  Users,
+  Award,
+  Facebook,
+  Mail,
+  Phone,
+} from "lucide-react";
 
-export const services: Service[] = [
+import mini from "../Images/mini.webp";
+import expo from "../Images/expo.webp";
+import Hostinger from "../Images/Hostinger.webp";
+import we from "../Images/we.webp";
+import Emaar from "../Images/Emaar.webp";
+import tvs from "../Images/tvs.webp";
+import delta from "../Images/delta.webp";
+import pay from "../Images/pay.webp";
+import voda from "../Images/voda.webp";
+import pal from "../Images/pal.webp";
+
+export const navLinks = [
+  { id: "services", en: "Services", ar: "خدماتنا" },
+  { id: "achievements", en: "Achievements", ar: "إنجازاتنا" },
+  { id: "projects", en: "Projects", ar: "مشاريعنا" },
+  { id: "about", en: "About Us", ar: "من نحن" },
+  { id: "contact", en: "Contact", ar: "اتصل بنا" },
+];
+
+export const services = [
   {
-    id: 1,
-    title: "Web Development",
-    titleAr: "تطوير المواقع",
-    description: "Custom web solutions built with modern technologies",
-    descriptionAr: "حلول ويب مخصصة مبنية بأحدث التقنيات",
-    icon: "Code2",
+    title: { en: "Web Development", ar: "تطوير المواقع" },
+    description: {
+      en: "Custom web solutions with modern tech.",
+      ar: "حلول ويب مخصصة بأحدث التقنيات.",
+    },
+    icon: Code2,
   },
   {
-    id: 2,
-    title: "Educational Platforms",
-    titleAr: "المنصات التعليمية",
-    description: "Interactive learning management systems",
-    descriptionAr: "أنظمة إدارة التعلم التفاعلية",
-    icon: "BookOpen",
+    title: { en: "Educational Platforms", ar: "المنصات التعليمية" },
+    description: {
+      en: "Interactive learning management systems.",
+      ar: "أنظمة إدارة تعلم تفاعلية.",
+    },
+    icon: BookOpen,
   },
   {
-    id: 3,
-    title: "Software Solutions",
-    titleAr: "حلول البرمجيات",
-    description: "Enterprise-grade software development",
-    descriptionAr: "تطوير برمجيات على مستوى المؤسسات",
-    icon: "Laptop",
+    title: { en: "Software Solutions", ar: "حلول البرمجيات" },
+    description: {
+      en: "Enterprise-grade software development.",
+      ar: "تطوير برمجيات على مستوى المؤسسات.",
+    },
+    icon: Laptop,
+  },
+  {
+    title: { en: "E-commerce Design", ar: "تصميم متاجر إلكترونية" },
+    description: {
+      en: "Professional e-commerce store design.",
+      ar: "تصميم متاجر إلكترونية احترافية.",
+    },
+    icon: ShoppingCart,
+  },
+  {
+    title: { en: "Graphic Design", ar: "تصاميم جرافيك" },
+    description: {
+      en: "Creative graphic design for your brand.",
+      ar: "خدمات تصميم جرافيك إبداعية لعلامتك.",
+    },
+    icon: Palette,
+  },
+  {
+    title: { en: "SEO Services", ar: "تحسين محركات البحث" },
+    description: {
+      en: "Improve visibility on search engines.",
+      ar: "تحسين ظهور موقعك في محركات البحث.",
+    },
+    icon: Search,
+  },
+  {
+    title: { en: "Digital Marketing", ar: "التسويق الإلكتروني" },
+    description: {
+      en: "Effective strategies to boost your business.",
+      ar: "استراتيجيات فعالة لتعزيز أعمالك.",
+    },
+    icon: Megaphone,
   },
 ];
 
-export const achievements: Achievement[] = [
+export const achievements = [
   {
-    id: 1,
-    title: "مشاريع منجزة",
-    value: "١٥٠+",
-    icon: "Target",
-    description: "مشروع تم إنجازه بنجاح",
+    title: { en: "Completed Projects", ar: "مشاريع منجزة" },
+    value: 150,
+    suffix: "+",
+    icon: Target,
   },
   {
-    id: 2,
-    title: "عملاء سعداء",
-    value: "٢٠٠+",
-    icon: "Users",
-    description: "عميل راضٍ عن خدماتنا",
+    title: { en: "Happy Clients", ar: "عملاء سعداء" },
+    value: 200,
+    suffix: "+",
+    icon: Users,
   },
   {
-    id: 3,
-    title: "جوائز التميز",
-    value: "٢٥+",
-    icon: "Award",
-    description: "جائزة في مجال التقنية",
+    title: { en: "Awards", ar: "جوائز تميز" },
+    value: 25,
+    suffix: "+",
+    icon: Award,
+  },
+  {
+    title: { en: "E-commerce Stores", ar: "متاجر إلكترونية" },
+    value: 50,
+    suffix: "+",
+    icon: ShoppingCart,
   },
 ];
 
-export const projects: Project[] = [
+export const projects = [
   {
-    id: 1,
-    title: "منصة التعليم الإلكتروني",
-    description: "نظام إدارة تعليمي متكامل للمؤسسات التعليمية",
+    title: { en: "E-Learning Platform", ar: "منصة التعليم الإلكتروني" },
+    description: {
+      en: "Integrated educational management system for institutions.",
+      ar: "نظام إدارة تعليمي متكامل للمؤسسات التعليمية.",
+    },
     image:
       "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["React", "Node.js", "MongoDB"],
   },
   {
-    id: 2,
-    title: "بوابة المؤسسات",
-    description: "حل متكامل لإدارة المؤسسات والشركات",
+    title: { en: "Corporate Portal", ar: "بوابة المؤسسات" },
+    description: {
+      en: "Comprehensive solution for corporate management.",
+      ar: "حل متكامل لإدارة المؤسسات والشركات.",
+    },
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["TypeScript", "React", "AWS"],
   },
   {
-    id: 3,
-    title: "نظام إدارة المبيعات",
-    description: "منصة متكاملة لإدارة المبيعات والمخزون",
+    title: { en: "Sales Management System", ar: "نظام إدارة المبيعات" },
+    description: {
+      en: "Integrated platform for managing sales and inventory.",
+      ar: "منصة متكاملة لإدارة المبيعات والمخزون.",
+    },
     image:
       "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["React", "Firebase", "Analytics"],
   },
 ];
 
-export const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "أحمد حسن",
-    role: "المدير التقني",
-    company: "شركة التقنية",
-    content: "قدمت منصتي نتائج استثنائية لمشروع التحول الرقمي الخاص بنا",
-    image: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-  },
-  {
-    id: 2,
-    name: "سارة محمد",
-    role: "مديرة",
-    company: "التعليم التقني",
-    content: "ساهمت حلولهم في تحويل تجربة التعلم عن بعد لدينا بشكل كامل",
-    image: "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
-  },
+export const partners = [
+  { name: "Mini", image: mini },
+  { name: "Expo", image: expo },
+  { name: "Hostinger", image: Hostinger },
+  { name: "WE", image: we },
+  { name: "Emaar", image: Emaar },
+  { name: "TVS", image: tvs },
+  { name: "Delta", image: delta },
+  { name: "Pay", image: pay },
+  { name: "Vodafone", image: voda },
+  { name: "Pal", image: pal },
 ];
 
 export const socialLinks = [
-  { id: 1, icon: "Twitter", url: "https://twitter.com" },
-  { id: 2, icon: "Linkedin", url: "https://linkedin.com" },
-  { id: 3, icon: "Instagram", url: "https://instagram.com" },
-  { id: 4, icon: "Facebook", url: "https://facebook.com" }, // Added Facebook
+  { icon: Facebook, url: "https://www.facebook.com/share/1AN2gA2bMq/" },
+  { icon: Mail, url: "mailto:softwarefikra@gmail.com" },
+  { icon: Phone, url: "tel:+201207039410" },
 ];
