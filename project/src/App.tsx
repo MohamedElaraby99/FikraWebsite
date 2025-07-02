@@ -35,7 +35,6 @@ import {
 } from "./data/content";
 import heroIllustration from "./Images/ai-hero.webp";
 import aboutImage from "./Images/About.webp";
-import ceoImage from "./Images/ceo.png";
 
 // Helper function for smooth scrolling
 const scrollToSection = (id: string) => {
@@ -609,116 +608,6 @@ const App: FC = () => {
           </div>
         </section>
 
-        {/* CEO Section */}
-        <section
-          id="ceo"
-          className="section-padding bg-gradient-to-br from-primary/5 to-secondary/10"
-        >
-          <div className="max-w-7xl mx-auto">
-            <AnimatedSection
-              animationType="fadeInUp"
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 gradient-text">
-                {isArabic ? "المؤسس والرئيس التنفيذي" : "Founder & CEO"}
-              </h2>
-              <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
-                {isArabic
-                  ? "تعرف على الشخص الذي يقود رؤية فكرة للبرمجيات نحو التميز والإبداع"
-                  : "Meet the person who leads Fikra Software's vision towards excellence and innovation"}
-              </p>
-            </AnimatedSection>
-
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <AnimatedSection
-                animationType="fadeInLeft"
-                className="flex justify-center"
-              >
-                <div className="relative">
-                  <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
-                    <LazyImage
-                      src={ceoImage}
-                      alt={
-                        isArabic ? "المؤسس والرئيس التنفيذي" : "Founder & CEO"
-                      }
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* Decorative elements */}
-                  <div className="absolute -top-4 -left-4 w-20 h-20 bg-primary/10 rounded-full blur-xl"></div>
-                  <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-accent/20 rounded-full blur-lg"></div>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection animationType="fadeInRight">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                      {isArabic ? "محمد العربي" : "Mohamed Arabi"}
-                    </h3>
-                    <p className="text-primary font-semibold text-lg">
-                      {isArabic ? "المؤسس والرئيس التنفيذي" : "Founder & CEO"}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 text-foreground/80">
-                    <p className="text-lg leading-relaxed">
-                      {isArabic
-                        ? "مطور ورائد أعمال شغوف بالتكنولوجيا والابتكار. أسست فكرة للبرمجيات برؤية واضحة لتقديم حلول تقنية مبتكرة تساهم في نمو وتطوير الأعمال."
-                        : "A passionate developer and entrepreneur driven by technology and innovation. I founded Fikra Software with a clear vision to provide innovative technical solutions that contribute to business growth and development."}
-                    </p>
-                    <p className="text-lg leading-relaxed">
-                      {isArabic
-                        ? "مع سنوات من الخبرة في مجال تطوير البرمجيات وإدارة المشاريع التقنية، أقود فريقاً من أفضل المطورين والمصممين لتحقيق رؤيتنا في تقديم أفضل الخدمات التقنية."
-                        : "With years of experience in software development and technical project management, I lead a team of the best developers and designers to achieve our vision of providing the finest technical services."}
-                    </p>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4 pt-4">
-                    <div className="p-4 bg-card/50 rounded-lg border border-border/50">
-                      <h4 className="font-semibold text-primary mb-2">
-                        {isArabic ? "التخصص" : "Specialization"}
-                      </h4>
-                      <p className="text-sm text-foreground/70">
-                        {isArabic
-                          ? "تطوير البرمجيات وإدارة المشاريع"
-                          : "Software Development & Project Management"}
-                      </p>
-                    </div>
-                    <div className="p-4 bg-card/50 rounded-lg border border-border/50">
-                      <h4 className="font-semibold text-primary mb-2">
-                        {isArabic ? "سنوات الخبرة" : "Years of Experience"}
-                      </h4>
-                      <p className="text-sm text-foreground/70">
-                        {isArabic ? "+4 سنوات" : "4+ Years"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 pt-4">
-                    <a
-                      href="https://wa.me/201002493560"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="primary-button"
-                    >
-                      {isArabic ? "تواصل معي" : "Contact Me"}
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/in/mohamed-el-araby-b489b4326"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="secondary-button"
-                    >
-                      LinkedIn
-                    </a>
-                  </div>
-                </div>
-              </AnimatedSection>
-            </div>
-          </div>
-        </section>
-
         <section id="partners" className="py-12 bg-secondary/30">
           <div className="max-w-7xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-8 text-foreground/80">
@@ -767,10 +656,10 @@ const App: FC = () => {
                       placeholder={isArabic ? "الاسم الكامل" : "Full Name"}
                       required
                       className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
-                               text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
-                               focus:ring-2 focus:ring-primary focus:border-primary
-                               transition-all duration-300 ease-in-out
-                               hover:border-primary/50"
+                          text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                          focus:ring-2 focus:ring-primary focus:border-primary
+                          transition-all duration-300 ease-in-out
+                          hover:border-primary/50"
                     />
                     <input
                       type="email"
@@ -780,10 +669,10 @@ const App: FC = () => {
                       }
                       required
                       className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
-                               text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
-                               focus:ring-2 focus:ring-primary focus:border-primary
-                               transition-all duration-300 ease-in-out
-                               hover:border-primary/50"
+                      text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                      focus:ring-2 focus:ring-primary focus:border-primary
+                      transition-all duration-300 ease-in-out
+                      hover:border-primary/50"
                     />
                   </div>
                   <input
@@ -792,10 +681,10 @@ const App: FC = () => {
                     placeholder={isArabic ? "الموضوع" : "Subject"}
                     required
                     className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
-                             text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
-                             focus:ring-2 focus:ring-primary focus:border-primary
-                             transition-all duration-300 ease-in-out
-                             hover:border-primary/50"
+                    text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                    focus:ring-2 focus:ring-primary focus:border-primary
+                    transition-all duration-300 ease-in-out
+                    hover:border-primary/50"
                   />
                   <textarea
                     name="message"
@@ -803,10 +692,10 @@ const App: FC = () => {
                     rows={5}
                     required
                     className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-border 
-                             text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
-                             focus:ring-2 focus:ring-primary focus:border-primary
-                             transition-all duration-300 ease-in-out
-                             hover:border-primary/50 resize-none"
+                    text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+                    focus:ring-2 focus:ring-primary focus:border-primary
+                    transition-all duration-300 ease-in-out
+                    hover:border-primary/50 resize-none"
                   ></textarea>
                   <div className="text-center pt-4">
                     <button
@@ -821,6 +710,7 @@ const App: FC = () => {
             </AnimatedSection>
           </div>
         </section>
+
       </main>
 
       <footer className="py-12 bg-secondary/30 border-t border-border">
