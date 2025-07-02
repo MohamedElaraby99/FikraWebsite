@@ -32,6 +32,7 @@ export const navLinks = [
   { id: "achievements", en: "Achievements", ar: "إنجازاتنا" },
   { id: "projects", en: "Projects", ar: "مشاريعنا" },
   { id: "about", en: "About Us", ar: "من نحن" },
+  { id: "ceo", en: "CEO", ar: "المؤسس" },
   { id: "contact", en: "Contact", ar: "اتصل بنا" },
 ];
 
