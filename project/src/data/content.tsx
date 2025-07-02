@@ -12,6 +12,8 @@ import {
   Facebook,
   Mail,
   Phone,
+  Linkedin,
+  Instagram,
 } from "lucide-react";
 
 import mini from "../Images/mini.webp";
@@ -167,6 +169,14 @@ export const partners = [
 
 export const socialLinks = [
   { icon: Facebook, url: "https://www.facebook.com/share/1AN2gA2bMq/" },
+  {
+    icon: Linkedin,
+    url: "https://www.linkedin.com/company/fikra-software-%D9%81%D9%83%D8%B1%D8%A9-%D9%84%D9%84%D8%A8%D8%B1%D9%85%D8%AC%D9%8A%D8%A7%D8%AA/",
+  },
+  {
+    icon: Instagram,
+    url: "https://www.instagram.com/fikra_software/?igsh=cDZpejg5a3VuNHVn#",
+  },
   { icon: Mail, url: "mailto:softwarefikra@gmail.com" },
   { icon: Phone, url: "tel:+201207039410" },
 ];
